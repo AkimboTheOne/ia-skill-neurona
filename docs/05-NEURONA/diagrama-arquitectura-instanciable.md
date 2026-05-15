@@ -70,5 +70,6 @@ flowchart TD
 ## Relacionado
 
 - [Neurona del Proyecto](neurona.md)
+- [Modelo de instanciación del skill](modelo-de-instanciacion-del-skill.md)
 - [Cómo otro agente llegaría a la misma conclusión](como-otro-agente-llegaria-a-la-misma-conclusion.md)
 - [Estructura de la Bóveda](../../references/vault-structure.md)

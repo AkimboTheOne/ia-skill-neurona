@@ -117,6 +117,8 @@ El LLM decide su contenido, su valor y sus vínculos.
 `init` valida o crea la bóveda del proyecto.
 `config` declara la instancia activa, la memoria temporal del skill y los contextos conectados.
 `docs/` es la bóveda concreta del proyecto actual; `.tmp/` es memoria de trabajo del skill.
+`scripts/setup-repo-for-agents.sh` materializa la composición local del repo para agentes de codificación IA y escribe su estado en `.tmp/agents-setup-state.json`.
+`scripts/agents-healthcheck.sh` valida esa composición local y devuelve si la sesión debe recargarse.
 
 ## Relacionado
 

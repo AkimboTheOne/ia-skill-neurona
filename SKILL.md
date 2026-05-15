@@ -61,6 +61,10 @@ Todos los comandos devuelven JSON por stdout y errores por stderr. Trata stdout 
 
 Usa `scripts/install-local-skill.sh` sólo cuando trabajes en este skill o cuando lo instales como skill local tipo plugin por línea de comandos. Crea un symlink local al repositorio en `.codex/skills/mem`; el uso normal de la bóveda no requiere este paso.
 
+Para instanciar el skill en un repositorio o sesión de trabajo, usa `scripts/setup-repo-for-agents.sh`. Ese setup materializa la composición local del repo para agentes, instala la superficie base de compatibilidad y escribe su último estado en `.tmp/agents-setup-state.json`.
+
+Cuando cambie la guía del agente o el setup, vuelve a cargar el contexto o reinicia la sesión antes de asumir que el entorno ya adoptó la nueva composición.
+
 El repositorio todavía puede ser referenciado como `ia-skill-neurona` en rutas y notas de migración.
 
 ## Flujo
@@ -82,6 +86,14 @@ El repositorio todavía puede ser referenciado como `ia-skill-neurona` en rutas 
 - **Futuro CLI/MCP server**: el skill expone capacidades complementarias a otro skill o agente.
 
 Cada instancia debe declarar qué contexto usa, qué bóveda gobierna, dónde reside su memoria de trabajo y qué plantilla de referencias adopta. No debe heredar semántica ajena por defecto. La personalización de la instancia vive en sus referencias operativas, no en el contrato central.
+
+Una instancia bien formada debe poder decir, sin ambigüedad:
+
+- dónde está instalado el skill;
+- qué artefacto actúa como entrada del agente en ese repo;
+- qué comando materializa o repara la composición local;
+- qué archivo registra el estado de esa instalación;
+- cuándo debe recargarse el contexto para adoptar cambios de guía.
 
 ## Resolución De Contexto
 

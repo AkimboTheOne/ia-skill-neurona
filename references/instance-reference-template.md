@@ -7,6 +7,9 @@ Usa esta plantilla cuando una instancia de `$mem` necesite ajustar `references/`
 Definir cómo la instancia interpreta el skill según su caso de uso, manteniendo la forma modular y las riendas
 estructurales.
 
+La instancia debe poder decir dónde está montada, cómo se repara o valida su composición local y qué superficie
+debe recargar el agente cuando cambian las guías.
+
 ## Campos a vigilar
 
 - `type` de memoria esperada.
@@ -21,6 +24,7 @@ estructurales.
 - memoria documental.
 - memoria tipo “cerebro” o conocimiento operativo.
 - instancias mixtas que requieran personalización explícita.
+- repositorios con entrada de agente propia y setup local materializado por script.
 
 ## Regla de uso
 

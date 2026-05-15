@@ -4,3 +4,6 @@
 .obsidian/
 **/__pycache__/
 *.pyc
+AGENT.md
+CLAUDE.md
+.github/

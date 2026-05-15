@@ -33,6 +33,7 @@ Esta neurona índice organiza la red de ayuda operativa del módulo para agentes
 - [Guía de conexiones para agentes LLM](guia-de-conexiones-para-agentes-llm.md)
 - [Guía de briefs para agentes LLM](guia-de-briefs-para-agentes-llm.md)
 - [Guía de elevación a neurona](guia-de-elevacion-a-neurona.md)
+- [Modelo de instanciación del skill](modelo-de-instanciacion-del-skill.md)
 
 ## Regla
 

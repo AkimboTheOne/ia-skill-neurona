@@ -41,8 +41,12 @@ printf '%s\n' "$connect_out" | python3 -c 'import json,sys; data=json.load(sys.s
 brief_out="$(run_json brief --topic "documentacion editorial")"
 printf '%s\n' "$brief_out" | python3 -c 'import json,sys; data=json.load(sys.stdin); assert data["ok"] is True and data["summary"]["topic"] == "documentacion editorial"'
 
+health_out="$("$SCRIPT_DIR/agents-healthcheck.sh")"
+printf '%s\n' "$health_out" | python3 -c 'import json,sys; data=json.load(sys.stdin); assert data["ok"] is True and "next_step" in data'
+
 assert "[[ \$(find \"$VAULT_DIR/01-CAPTURES/observations\" -maxdepth 1 -type f -name '*.md' | wc -l) -eq 1 ]]" "Processed capture missing"
 assert "[[ \$(find \"$VAULT_DIR/02-CONNECTIONS\" -maxdepth 1 -type f -name '*.md' | wc -l) -eq 1 ]]" "Connections file missing"
 assert "[[ \$(find \"$VAULT_DIR/03-BRIEFS\" -maxdepth 1 -type f -name '*.md' | wc -l) -eq 1 ]]" "Brief file missing"
 
 printf 'Mini suite passed in %s\n' "$VAULT_DIR"
+printf 'If AGENTS.md changed, restart the session or reload the agent context.\n'

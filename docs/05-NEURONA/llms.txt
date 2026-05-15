@@ -20,6 +20,9 @@ Los comandos devuelven JSON.
 - `docs/` es la bóveda del proyecto actual desde la cual se instancia este skill.
 - `.tmp/` es memoria de trabajo temporal del skill.
 - El skill puede instanciarse como CLI cruzado, plugin, incepción o servidor futuro.
+- `scripts/setup-repo-for-agents.sh` materializa la composición local del repositorio para agentes.
+- `scripts/agents-healthcheck.sh` valida el último estado de esa composición local.
+- Si cambian las guías o la composición, el agente debe recargar contexto o reiniciar la sesión.
 
 ## Referencias
 - `references/` es agnóstico por defecto.
