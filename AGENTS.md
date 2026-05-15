@@ -83,6 +83,14 @@ Cuando la iteración alcance estabilidad, sigue siempre la misma rienda:
 
 La secuencia canónica vive en `references/versioning-and-release.md`. No inventes un flujo paralelo salvo que el modelo de publicación cambie.
 
+Para `mem` como skill cross o plugin local, el tag verificado del repo puede ser la fuente canónica descargable. En ese caso:
+
+- el tag fija la versión;
+- el release de GitHub publica esa versión;
+- el checkout del tag sirve como fuente instalable o referenciable en otro proyecto.
+
+No hace falta empaquetado adicional salvo que el caso de uso lo pida explícitamente.
+
 ## Criterio de éxito
 
 Un agente que entra aquí debería poder:

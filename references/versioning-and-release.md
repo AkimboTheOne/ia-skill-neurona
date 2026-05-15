@@ -27,6 +27,18 @@ Un release está listo cuando:
 - la documentación pública explica el modo de uso sin mezclar memoria del agente con memoria del proyecto;
 - el cambio ya puede repetirse en futuras iteraciones sin reinterpretación manual.
 
+## Distribución por tag
+
+Para este proyecto, el mecanismo principal de distribución puede ser el propio tag verificado del repo. Si otra instancia necesita el skill como plugin cross o como checkout local, puede descargar el source del tag estable y usarlo como fuente canónica.
+
+La regla práctica es:
+
+- `tag` = versión inmutable de referencia;
+- `GitHub Release` = publicación visible asociada al tag;
+- `checkout` del tag = artefacto descargable e instalable cuando no se necesita empaquetado adicional.
+
+Si en el futuro se necesita un bundle más pequeño o un artefacto recortado, eso se tratará como un paso adicional de publicación, no como sustituto de esta regla.
+
 ## Rienda para futuros incrementos
 
 Cuando el proyecto vuelva a subir versión, reutiliza esta referencia como checklist canónica. No inventes una secuencia distinta salvo que cambie el modelo de publicación.

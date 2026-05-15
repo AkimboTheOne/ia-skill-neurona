@@ -23,7 +23,7 @@ El versionamiento debe tratarse como una rienda del proyecto y del agente: una s
 
 ## PROOF
 
-El repositorio ya separa contrato, doctrina, instanciación y operación. También tiene validaciones deterministas y un cierre de loop previsto. Lo que faltaba era convertir la subida de versión en una secuencia explícita para que cada release siga el mismo orden y no dependa de memoria informal.
+El repositorio ya separa contrato, doctrina, instanciación y operación. También tiene validaciones deterministas y un cierre de loop previsto. Lo que faltaba era convertir la subida de versión en una secuencia explícita para que cada release siga el mismo orden y no dependa de memoria informal. Para este proyecto, el tag verificado del repo puede ser además la fuente descargable canónica para otro proyecto o un skill cross.
 
 ## READER TRANSFORMATION
 
