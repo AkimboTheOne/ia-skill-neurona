@@ -25,6 +25,8 @@ Un release está listo cuando:
 - la instalación y la composición local son idempotentes;
 - la CLI sigue operando sin ambigüedad de contexto;
 - la documentación pública explica el modo de uso sin mezclar memoria del agente con memoria del proyecto;
+- el `README.md` muestra la misma versión visible que el tag que se va a publicar;
+- el badge, el frontmatter y el tag deben cambiar juntos en la misma iteración;
 - el cambio ya puede repetirse en futuras iteraciones sin reinterpretación manual.
 
 ## Distribución por tag
