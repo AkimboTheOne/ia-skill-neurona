@@ -15,6 +15,7 @@ La instancia debe poder decir dónde está montada, cómo se repara o valida su 
 - límites de contexto conectados.
 - criterios de curaduría.
 - señales de compatibilidad con la bóveda viva.
+- señales de pendiente o madurez (`status`, `tags`, `aliases`) sin mover la nota fuera de `docs/00-INBOX/`.
 
 ## Casos de uso compatibles
 
@@ -27,6 +28,8 @@ La instancia debe poder decir dónde está montada, cómo se repara o valida su 
 ## Regla de uso
 
 La plantilla no reemplaza el contrato central. Sirve para adaptar la instancia con juicio del agente/LLM y dejar explícito qué cambia, qué permanece y por qué.
+
+Si una idea sigue pendiente, debe permanecer en el inbox del proyecto y declararse con metadata. No introduzcas una carpeta adicional de pendientes salvo que el contrato de la instancia lo exija de forma explícita.
 
 ## Release de la instancia
 

@@ -33,6 +33,10 @@ Esto exporta `NEURONA_VAULT` a `.tmp/vault`, evitando rutas temporales específi
 `docs/` es la bóveda concreta del proyecto actual. El mismo skill puede instanciarse en otros proyectos
 con semánticas distintas, pero conservando este contrato estructural.
 
+Los pendientes de trabajo viven en `docs/00-INBOX/` mientras sigan siendo ideas crudas o propuestas sin implementar.
+No crees una carpeta separada para “pendings” salvo que una instancia lo declare explícitamente como variante de contrato.
+La condición de pendiente debe declararse con metadata (`status`, `tags`, `aliases` o campos de instancia), no con una carpeta nueva.
+
 `references/` no fija una semántica única. Debe leerse como base agnóstica y luego ajustarse por plantilla
 según el caso de uso de la instancia:
 
