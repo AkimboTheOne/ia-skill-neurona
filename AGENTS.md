@@ -54,6 +54,7 @@ Este archivo orienta sesiones nuevas para que un agente pueda:
 - Prefiere ajustes de forma sobre reingeniería cuando el objetivo sea editorial.
 - No introduzcas instrucciones que compitan con `SKILL.md`; este archivo guía el trabajo en el repo, no reemplaza el contrato del skill.
 - Conserva el idioma y la convención editorial del proyecto: títulos en formato de frase, con mayúscula inicial sólo donde aporte precisión.
+- Las ideas pendientes viven en `docs/00-INBOX/` y se declaran con metadata; no las muevas a una carpeta separada salvo que la instancia lo exija explícitamente.
 
 ## Comandos útiles
 

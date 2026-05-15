@@ -166,6 +166,8 @@ Si entras por primera vez como agente de codificación IA:
 6. Usa `references/` para recuperar la doctrina estable y los contratos reutilizables.
 7. Usa `scripts/mini-suite.sh` para validar el flujo básico cuando hagas cambios.
 
+Las ideas pendientes se quedan en `docs/00-INBOX/` con metadata declarativa; no hace falta una carpeta separada de “pendings” para mantenerlas visibles.
+
 ## Instancias y personalización
 
 El proyecto está diseñado para instanciarse en otros contextos.
