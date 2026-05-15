@@ -1,0 +1,18 @@
+{
+  "contexts": {
+    "external": [],
+    "project": [
+      "docs/05-NEURONA/neurona.md",
+      "docs/05-NEURONA/agent.json"
+    ],
+    "skill": [
+      "SKILL.md"
+    ],
+    "user": []
+  },
+  "mode": "project",
+  "project_vault": "/Users/avalbuenae/Workspaces/ai-hub/skills/ia-skill-neurona/docs",
+  "skill_tmp": ".tmp/vault",
+  "reference_template": "documentary-memory",
+  "reference_model": "agnostic-base-plus-instance-template"
+}

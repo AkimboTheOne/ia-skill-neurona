@@ -1,0 +1,106 @@
+{
+  "auth": {
+    "type": "none"
+  },
+  "commands": [
+    {
+      "description": "Crear o validar la estructura de la bóveda.",
+      "name": "init"
+    },
+    {
+      "description": "Inicializar el repositorio actual como la bóveda y emitir exportaciones de NEURONA_VAULT.",
+      "name": "init-repo-vault"
+    },
+    {
+      "description": "Declarar la instancia activa, los contextos y la memoria temporal del skill.",
+      "name": "config"
+    },
+    {
+      "description": "Escribir una captura cruda en 00-INBOX con propiedades canónicas.",
+      "name": "capture"
+    },
+    {
+      "description": "Clasificar notas del inbox en 01-CAPTURES con curaduría en español.",
+      "name": "process-inbox"
+    },
+    {
+      "description": "Generar un reporte heurístico de conexiones entre neuronas del proyecto.",
+      "name": "connect"
+    },
+    {
+      "description": "Generar un brief de cinco campos para un tema del proyecto.",
+      "name": "brief"
+    },
+    {
+      "description": "Reportar el estado y los conteos de la bóveda.",
+      "name": "status"
+    }
+  ],
+  "description": "Memoria operativa del proyecto en Markdown para flujos de captura, almacenamiento, síntesis y gobierno de la red. Identificador de activación: $mem. `docs/` es la bóveda del proyecto actual desde la cual se instancia este skill. `.tmp/` es memoria de trabajo temporal del skill. La neurona define la unidad viva del proyecto; no almacena todo el conocimiento, sólo el modelo operativo que lo mantiene coherente.",
+  "reference_model": {
+    "default": "agnostic",
+    "templates": [
+      "memory-temporal-work",
+      "documentary-memory",
+      "cognitive-memory"
+    ]
+  },
+  "name": "mem",
+  "output_contract": {
+    "command": "string",
+    "created_files": "string[]",
+    "ok": "boolean",
+    "summary": "object",
+    "updated_files": "string[]",
+    "vault": "string",
+    "warnings": "string[]"
+  },
+  "property_contract": {
+    "format": "YAML frontmatter al inicio de las notas Markdown.",
+    "optional": [
+      "aliases",
+      "source_file",
+      "reviewed",
+      "confidence"
+    ],
+    "required": [
+      "created",
+      "type",
+      "status",
+      "source",
+      "tags"
+    ]
+  },
+  "instance_contract": {
+    "contexts": [
+      "user",
+      "skill",
+      "project",
+      "external"
+    ],
+    "modes": [
+      "project",
+      "cli-cross",
+      "plugin",
+      "inception",
+      "server"
+    ],
+    "project_vault": "docs/ or equivalent project vault",
+    "skill_tmp": ".tmp/ for temporary planning and maps",
+    "reference_template": "instance-adjusted references derived from the agnostic base"
+  },
+  "reference_name": "ia-skill-neurona",
+  "vault_structure": [
+    "00-INBOX",
+    "01-CAPTURES",
+    "01-CAPTURES/observations",
+    "01-CAPTURES/reactions",
+    "01-CAPTURES/patterns",
+    "01-CAPTURES/questions",
+    "01-CAPTURES/numbers",
+    "02-CONNECTIONS",
+    "03-BRIEFS",
+    "05-NEURONA"
+  ],
+  "version": "0.1.0"
+}

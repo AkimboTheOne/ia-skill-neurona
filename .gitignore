@@ -1,0 +1,6 @@
+.codex/
+.tmp/
+.DS_Store
+.obsidian/
+**/__pycache__/
+*.pyc

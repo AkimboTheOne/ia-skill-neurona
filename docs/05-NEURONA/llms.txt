@@ -1,0 +1,42 @@
+# Memoria
+
+Memoria operativa del proyecto en Markdown para agentes.
+
+Identificador de activación: `$mem`.
+Referencia histórica: `ia-skill-neurona`.
+La neurona define la unidad viva del proyecto: no almacena todo el conocimiento, sino el modelo operativo que mantiene coherente la red.
+`docs/` es la bóveda concreta del proyecto actual. `.tmp/` es memoria de trabajo temporal del skill.
+
+## Capacidades
+- Capturar texto crudo en `00-INBOX` con propiedades canónicas.
+- Procesar capturas en notas Markdown tipadas y curadas en español.
+- Generar reportes de conexiones y briefs del proyecto.
+
+## Interfaz
+Usa `scripts/neurona.sh <comando> --vault <ruta>` o exporta `NEURONA_VAULT`.
+Los comandos devuelven JSON.
+
+## Instancias
+- `docs/` es la bóveda del proyecto actual desde la cual se instancia este skill.
+- `.tmp/` es memoria de trabajo temporal del skill.
+- El skill puede instanciarse como CLI cruzado, plugin, incepción o servidor futuro.
+
+## Referencias
+- `references/` es agnóstico por defecto.
+- Las instancias pueden ajustar plantillas de referencias según caso de uso.
+- El agente/LLM debe proponer esos ajustes cuando el propósito lo requiera.
+
+## Preferencia editorial
+- Superficies narrativas: lenguaje natural.
+- Superficies técnicas: `snake_case`, contratos y rutas.
+- Si un término técnico no mejora precisión, no debe dominar la lectura humana.
+
+## Configuración
+Usa `config` para declarar modo de instanciación, bóveda activa, memoria temporal y contextos conectados.
+No fusiones contextos por defecto.
+
+## Properties
+New notes use YAML frontmatter with `created`, `type`, `status`, `source`, `tags`, `aliases`, `source_file`, `reviewed`, and `confidence` as needed.
+
+## Alcance
+La red vive en `01-CAPTURES`, `02-CONNECTIONS` y `03-BRIEFS`. `05-NEURONA` gobierna, define y mantiene el modelo del proyecto.

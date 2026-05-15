@@ -1,0 +1,6 @@
+interface:
+  display_name: "Mem"
+  short_description: "Local Markdown memory workflows"
+  default_prompt: "Use $mem to capture, organize, and synthesize notes in my local Markdown vault."
+policy:
+  allow_implicit_invocation: true
