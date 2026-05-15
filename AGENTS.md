@@ -70,6 +70,19 @@ python3 scripts/neurona.py connect --vault .tmp/vault --days 7
 python3 scripts/neurona.py brief --vault .tmp/vault --topic "..."
 ```
 
+## Versionado y release
+
+Cuando la iteración alcance estabilidad, sigue siempre la misma rienda:
+
+1. fija el alcance en inbox, captura o brief;
+2. aplica los cambios en documentación, gobernanza o implementación;
+3. actualiza la versión visible donde corresponda;
+4. valida `scripts/setup-repo-for-agents.sh`, `scripts/agents-healthcheck.sh` y `bash scripts/mini-suite.sh`;
+5. registra el cierre en `05-NEURONA` o en una brief de release;
+6. etiqueta el release en Git si el estado es publicable.
+
+La secuencia canónica vive en `references/versioning-and-release.md`. No inventes un flujo paralelo salvo que el modelo de publicación cambie.
+
 ## Criterio de éxito
 
 Un agente que entra aquí debería poder:

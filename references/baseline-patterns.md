@@ -39,6 +39,10 @@ Si luego se añaden herramientas remotas o servidores MCP, descríbelos con prot
 Cuando el skill opere sobre varios contextos, declara explícitamente cuál es la memoria del proyecto, cuál es la memoria temporal del skill y cuáles son los contextos conectados.
 No asumas que una instancia puede leer o escribir en otra sin decirlo.
 
+## Versionamiento y release
+
+Cuando una iteración alcance estabilidad, trata el versionamiento como una rienda del proyecto y del agente: captura el alcance, fija la versión visible, valida el setup, y sólo después etiqueta el release. La secuencia canónica vive en [Versionamiento y release](versioning-and-release.md).
+
 ## Leer más
 
 Profundiza sólo si necesitas rehacer el contrato de uso o la forma de instanciación:
