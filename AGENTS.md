@@ -11,7 +11,7 @@ Este archivo orienta sesiones nuevas para que un agente pueda:
 - distinguir entre el contrato del skill y la documentación del proyecto;
 - cambiar el producto sin romper el `SKILL.md`.
 
-## Sesión Y Setup
+## Sesión y setup
 
 - Si el repositorio necesita compatibilidad local para un agente o herramienta, ejecuta primero `scripts/setup-repo-for-agents.sh`.
 - Si esta guía cambia durante una sesión, reinicia la sesión para que el agente adopte el nuevo contexto de forma limpia.
@@ -20,7 +20,7 @@ Este archivo orienta sesiones nuevas para que un agente pueda:
 - El setup escribe su último estado en `.tmp/agents-setup-state.json`; usa `scripts/agents-healthcheck.sh` para comprobarlo.
 - Si el healthcheck cambia de estado o la guía cambia, reinicia la sesión o recarga el contexto del agente.
 
-## Mapa Del Repositorio
+## Mapa del repositorio
 
 - `README.md`: puerta de entrada humana del producto.
 - `SKILL.md`: contrato central del skill `$mem`.
@@ -30,7 +30,7 @@ Este archivo orienta sesiones nuevas para que un agente pueda:
 - `scripts/`: CLI determinista, smoke tests y utilidades.
 - `agents/`: configuración de agente para consumos externos.
 
-## Orden De Lectura
+## Orden de lectura
 
 1. `README.md` para entender el producto.
 2. `SKILL.md` para entender el contrato del skill.
@@ -39,7 +39,7 @@ Este archivo orienta sesiones nuevas para que un agente pueda:
 5. `references/vault-structure.md` y `references/intelligence-workflows.md` para entender la bóveda y la síntesis.
 6. `references/editorial-preference.md` para mantener la voz editorial.
 
-## Cómo Navegar La Red Documental
+## Cómo navegar la red documental
 
 - Usa `docs/05-NEURONA/` para criterios, fronteras y doctrina.
 - Usa `docs/01-CAPTURES/` para la materia prima curada.
@@ -47,7 +47,7 @@ Este archivo orienta sesiones nuevas para que un agente pueda:
 - Usa `docs/03-BRIEFS/` para síntesis listas para comunicar.
 - Usa `docs/baseline/` sólo como corpus histórico o fuente inspiracional.
 
-## Reglas De Trabajo
+## Reglas de trabajo
 
 - Mantén los cambios de fondo en `SKILL.md` y `docs/05-NEURONA/` separados de los ajustes de presentación.
 - No reescribas `docs/baseline/` salvo que el usuario lo pida explícitamente.
@@ -55,7 +55,7 @@ Este archivo orienta sesiones nuevas para que un agente pueda:
 - No introduzcas instrucciones que compitan con `SKILL.md`; este archivo guía el trabajo en el repo, no reemplaza el contrato del skill.
 - Conserva el idioma y la convención editorial del proyecto: títulos en formato de frase, con mayúscula inicial sólo donde aporte precisión.
 
-## Comandos Útiles
+## Comandos útiles
 
 ```bash
 bash scripts/setup-repo-for-agents.sh
@@ -70,7 +70,7 @@ python3 scripts/neurona.py connect --vault .tmp/vault --days 7
 python3 scripts/neurona.py brief --vault .tmp/vault --topic "..."
 ```
 
-## Criterio De Éxito
+## Criterio de éxito
 
 Un agente que entra aquí debería poder:
 

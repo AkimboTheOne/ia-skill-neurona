@@ -4,11 +4,9 @@ Usa esta plantilla cuando una instancia de `$mem` necesite ajustar `references/`
 
 ## Propósito
 
-Definir cómo la instancia interpreta el skill según su caso de uso, manteniendo la forma modular y las riendas
-estructurales.
+Definir cómo la instancia interpreta el skill según su caso de uso, manteniendo la forma modular y las riendas estructurales.
 
-La instancia debe poder decir dónde está montada, cómo se repara o valida su composición local y qué superficie
-debe recargar el agente cuando cambian las guías.
+La instancia debe poder decir dónde está montada, cómo se repara o valida su composición local y qué superficie debe recargar el agente cuando cambian las guías.
 
 ## Campos a vigilar
 
@@ -28,8 +26,7 @@ debe recargar el agente cuando cambian las guías.
 
 ## Regla de uso
 
-La plantilla no reemplaza el contrato central. Sirve para adaptar la instancia con juicio del agente/LLM y dejar
-explícito qué cambia, qué permanece y por qué.
+La plantilla no reemplaza el contrato central. Sirve para adaptar la instancia con juicio del agente/LLM y dejar explícito qué cambia, qué permanece y por qué.
 
 ## Relacionado
 

@@ -5,21 +5,15 @@ Usa esta referencia al producir conexiones, briefs o síntesis desde una bóveda
 ## Frontera de responsabilidad
 
 El skill pone riendas: restringe estructura y movimiento, pero no decide significado.
-Los scripts no son la capa de inteligencia generativa. Proveen operaciones deterministas sobre archivos,
-heurísticas simples de clasificación y andamiajes de borrador. El LLM que usa el skill debe leer las notas fuente
-y decidir contenido, creación, modificación, vinculación, selección de contexto, inferencia, síntesis, detección
-de contradicciones, desarrollo de briefs y prosa final.
+Los scripts no son la capa de inteligencia generativa. Proveen operaciones deterministas sobre archivos, heurísticas simples de clasificación y andamiajes de borrador. El LLM que usa el skill debe leer las notas fuente y decidir contenido, creación, modificación, vinculación, selección de contexto, inferencia, síntesis, detección de contradicciones, desarrollo de briefs y prosa final.
 
 Trata las salidas de `connect` y `brief` como puntos de partida, no como conclusiones autoritarias.
 
 ## Instancias y contextos
 
-`$mem` puede instanciarse como CLI cruzado, plugin de otro proyecto, incepción sobre su propio proyecto o servicio
-futuro. Cada instancia declara una bóveda activa, una memoria temporal de trabajo y uno o más contextos
-conectados.
+`$mem` puede instanciarse como CLI cruzado, plugin de otro proyecto, incepción sobre su propio proyecto o servicio futuro. Cada instancia declara una bóveda activa, una memoria temporal de trabajo y uno o más contextos conectados.
 
-No fusionar memorias por defecto. Si la fuente no se identifica con claridad, el LLM debe tratarla como contexto
-local y decidir su valor explícitamente.
+No fusionar memorias por defecto. Si la fuente no se identifica con claridad, el LLM debe tratarla como contexto local y decidir su valor explícitamente.
 
 ## Referencias y plantillas
 
@@ -35,8 +29,7 @@ El agente/LLM debe proponer ajustes cuando la instancia necesite una de estas or
 - memoria tipo “cerebro” o conocimiento operativo;
 - otro caso de uso con preferencias o personalización explícitas.
 
-La regla es no romper el espíritu modular del skill: la plantilla orienta, la instancia adapta y el contrato
-central permanece estable.
+La regla es no romper el espíritu modular del skill: la plantilla orienta, la instancia adapta y el contrato central permanece estable.
 
 ## Procesamiento del inbox
 
