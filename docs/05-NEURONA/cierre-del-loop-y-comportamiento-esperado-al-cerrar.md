@@ -39,6 +39,8 @@ El cierre del loop debe dejar una huella explícita en la red del proyecto. Si e
 - la personalización o maniobra de la instancia quede claramente delimitada;
 - y el criterio pueda guiar futuros cierres sin reabrir la misma discusión.
 
+Para cambios de versionamiento y release, la secuencia canónica se fija además en [Versionamiento y release](../../references/versioning-and-release.md), de modo que futuras subidas de versión sigan la misma rienda: alcance, aplicación, validación, cierre y etiquetado.
+
 ## Comportamiento esperado del skill
 
 Al cerrar, `$mem` debe:

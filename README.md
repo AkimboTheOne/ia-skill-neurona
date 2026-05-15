@@ -3,7 +3,7 @@ title: mem
 project: ia-skill-neurona
 description: Módulo de memoria operativa instanciable en Markdown para capturar, curar, conectar y sintetizar conocimiento de proyecto.
 status: active
-version: 0.1.0
+version: 0.1.1
 tags:
   - mem
   - skill
@@ -16,13 +16,14 @@ tags:
 
 # `$mem` / `ia-skill-neurona`
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](.)
+[![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](.)
 [![Status](https://img.shields.io/badge/status-active-green.svg)](.)
 [![License](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-Markdown%20vault-informational.svg)](docs/05-NEURONA/neurona.md)
 [![CLI](https://img.shields.io/badge/cli-neurona.sh%20%7C%20neurona.py-orange.svg)](scripts/neurona.sh)
 
 `$mem` es un módulo de memoria operativa en Markdown para proyectos que necesitan capturar, curar, conectar y sintetizar conocimiento de forma navegable por agentes IA.
+Complementa una memoria nativa del agente como `Memories`: no la reemplaza, sino que aporta una bóveda de proyecto explícita, portátil y auditable.
 
 Este repositorio es el producto completo:
 
@@ -34,6 +35,7 @@ Este repositorio es el producto completo:
 - `scripts/setup-repo-for-agents.sh` materializa compatibilidad local cuando hace falta.
 
 No es sólo una carpeta de notas. Es un sistema de trabajo para construir memoria de proyecto con estructura, trazabilidad y una capa de síntesis reutilizable. El contenido de `docs/` está pensado sobre todo para el agente/LLM que opera el flujo del proyecto, no para competir con el contrato del skill.
+Cuando el skill se usa sobre sí mismo, el repositorio entra en modo de incepción: la documentación gobierna el contrato y la CLI sólo ejecuta operaciones deterministas.
 
 ## Setup para agentes
 
@@ -61,6 +63,8 @@ bash scripts/agents-healthcheck.sh
 ```
 
 El estado del setup vive en `.tmp/agents-setup-state.json`. Si ese archivo cambia, vuelve a correr el healthcheck y recarga o reinicia la sesión del agente cuando la composición local haya sido reescrita.
+
+Si ya usas una memoria nativa del agente, trata este repo como la capa de memoria del proyecto. No mezcles ambos contextos por defecto: primero decide si la información pertenece a la conversación general del agente o a la bóveda del proyecto.
 
 ## Qué resuelve
 

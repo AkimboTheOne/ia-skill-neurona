@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 CAPTURE_TYPES = ("observations", "reactions", "patterns", "questions", "numbers")
 REQUIRED_DIRS = (

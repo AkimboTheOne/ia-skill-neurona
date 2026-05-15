@@ -38,3 +38,4 @@ printf 'Installed local skill symlink: %s -> %s\n' "$LINK_PATH" "$REPO_DIR"
 printf 'Historical reference name remains: %s\n' "$REFERENCE_NAME"
 printf 'Use this only for developing this skill or installing it as a command-line plugin-style local skill.\n'
 printf 'Normal vault usage does not require this symlink. This is repo-local only and does not install into ~/.codex/skills.\n'
+printf 'If you already use a native agent memory system, keep it separate from this local skill installation.\n'

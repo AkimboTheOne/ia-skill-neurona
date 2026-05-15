@@ -193,13 +193,20 @@ for surface in "${SURFACES[@]}"; do
   ensure_link "$dest" "$source"
 done
 
-for copy in "${COPIES[@]}"; do
-  dest="${copy%%=*}"
-  source="${copy#*=}"
-  ensure_copy "$dest" "$source"
-done
+if [ "${#COPIES[@]}" -gt 0 ]; then
+  for copy in "${COPIES[@]}"; do
+    dest="${copy%%=*}"
+    source="${copy#*=}"
+    ensure_copy "$dest" "$source"
+  done
+fi
 
 mkdir -p "$(dirname "$STATE_FILE")"
+surfaces_json="$(for surface in "${SURFACES[@]}"; do dest="${surface%%=*}"; source="${surface#*=}"; printf '    {"kind":"symlink","dest":"%s","source":"%s"}\n' "$dest" "$source"; done | sed '$!s/$/,/')"
+copies_json=""
+if [ "${#COPIES[@]}" -gt 0 ]; then
+  copies_json="$(for copy in "${COPIES[@]}"; do dest="${copy%%=*}"; source="${copy#*=}"; printf '    {"kind":"copy","dest":"%s","source":"%s"}\n' "$dest" "$source"; done | sed '$!s/$/,/')"
+fi
 cat >"$STATE_FILE" <<EOF
 {
   "repo_dir": "$REPO_DIR",
@@ -209,10 +216,10 @@ cat >"$STATE_FILE" <<EOF
   "plugin_path": "$PLUGIN_PATH",
   "plugin_status": "$PLUGIN_STATUS",
   "surfaces": [
-$(for surface in "${SURFACES[@]}"; do dest="${surface%%=*}"; source="${surface#*=}"; printf '    {"kind":"symlink","dest":"%s","source":"%s"}\n' "$dest" "$source"; done | sed '$!s/$/,/')
+${surfaces_json}
   ],
   "copies": [
-$(for copy in "${COPIES[@]}"; do dest="${copy%%=*}"; source="${copy#*=}"; printf '    {"kind":"copy","dest":"%s","source":"%s"}\n' "$dest" "$source"; done | sed '$!s/$/,/')
+${copies_json}
   ],
   "timestamp_utc": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 }

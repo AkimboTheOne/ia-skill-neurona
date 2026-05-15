@@ -28,6 +28,10 @@ La instancia debe poder decir dónde está montada, cómo se repara o valida su 
 
 La plantilla no reemplaza el contrato central. Sirve para adaptar la instancia con juicio del agente/LLM y dejar explícito qué cambia, qué permanece y por qué.
 
+## Release de la instancia
+
+Si la instancia participa en una iteración de versionamiento, usa [Versionamiento y release](versioning-and-release.md) como rienda base para mantener una secuencia consistente de versión visible, validación y publicación.
+
 ## Relacionado
 
 - [Estructura de la Bóveda](vault-structure.md)
