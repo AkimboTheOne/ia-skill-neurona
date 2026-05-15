@@ -9,10 +9,19 @@ if [ "${1:-}" != "" ]; then
 elif git -C "$SKILL_DIR" rev-parse --show-toplevel >/dev/null 2>&1; then
   REPO_DIR="$(git -C "$SKILL_DIR" rev-parse --show-toplevel)"
 else
-  REPO_DIR="$SKILL_DIR"
+  REPO_DIR="$SKILL_DIR/docs"
 fi
 
-"$SCRIPT_DIR/neurona.sh" init --vault "$REPO_DIR" >/dev/null
+if [ "$REPO_DIR" = "$SKILL_DIR" ] || [ "$(basename "$REPO_DIR")" != "docs" ]; then
+  printf 'Refusing to initialize the vault at repository root: %s\n' "$REPO_DIR" >&2
+  printf 'Use a descendant directory such as %s/docs or pass an explicit vault path.\n' "$SKILL_DIR" >&2
+  exit 1
+fi
+
+if [ ! -d "$REPO_DIR" ]; then
+  printf 'Missing vault directory: %s\n' "$REPO_DIR" >&2
+  exit 1
+fi
 
 printf 'export NEURONA_VAULT=%q\n' "$REPO_DIR"
 printf 'export NEURONA_SKILL_DIR=%q\n' "$SKILL_DIR"

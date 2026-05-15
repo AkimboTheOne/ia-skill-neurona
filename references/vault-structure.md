@@ -1,6 +1,6 @@
 # Estructura de la bóveda
 
-Usa esta referencia al inicializar una bóveda, validarla o cambiar convenciones de almacenamiento.
+Usa esta referencia al inicializar una bóveda descendiente, validarla o cambiar convenciones de almacenamiento.
 
 ## Carpetas
 
@@ -10,7 +10,8 @@ Inicializa la bóveda del repositorio y las variables temporales del shell con:
 eval "$(scripts/init-repo-vault.sh)"
 ```
 
-Esto exporta `NEURONA_VAULT` a la raíz del repositorio sólo para la sesión actual del shell.
+Esto exporta `NEURONA_VAULT` a la bóveda descendiente del repositorio, normalmente `docs/`, sólo para la
+sesión actual del shell.
 
 Para pruebas, prefiere una bóveda ignorada y local al repositorio:
 

@@ -92,7 +92,7 @@ Si ya usas una memoria nativa del agente, trata este repo como la capa de memori
 
 ## Uso rápido
 
-Inicializa la bóveda del repositorio:
+Inicializa la bóveda descendiente del repositorio:
 
 ```bash
 eval "$(scripts/init-repo-vault.sh)"

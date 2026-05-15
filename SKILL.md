@@ -46,8 +46,9 @@ scripts/neurona.sh status --vault /path/to/vault
 bash scripts/mini-suite.sh
 ```
 
-`init-repo-vault.sh` inicializa el repositorio actual como bóveda y emite exportaciones temporales:
-`NEURONA_VAULT` y `NEURONA_SKILL_DIR`. Después de evaluarlo, los comandos CLI pueden omitir `--vault`.
+`init-repo-vault.sh` inicializa la bóveda descendiente del repositorio actual, por defecto `docs/`, y emite
+exportaciones temporales `NEURONA_VAULT` y `NEURONA_SKILL_DIR`. Después de evaluarlo, los comandos CLI pueden
+omitir `--vault`.
 
 `init-test-vault.sh` inicializa una bóveda de prueba ignorada y local al repositorio en `.tmp/vault` por defecto.
 Úsalo para pruebas portables en lugar de carpetas temporales específicas del host.
