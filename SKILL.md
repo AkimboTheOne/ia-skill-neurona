@@ -16,6 +16,8 @@ description: Skill local de memoria en Markdown, referenciado históricamente co
 
 La doctrina de preferencia editorial vive en `references/` y se aplica también en `05-NEURONA`: lenguaje natural para superficies humanas, `snake_case` sólo donde la máquina lo necesita. Si una instancia necesita ajustar tono, densidad o formalidad, debe declararlo explícitamente.
 
+`mem` no compite con una memoria nativa del agente como `Memories`: la complementa con una bóveda de proyecto explícita, archivos planos, trazabilidad y una política de instancia legible. Si ambos sistemas existen, la memoria nativa del agente gobierna el contexto general de la conversación y `mem` gobierna la memoria operativa del proyecto.
+
 Usa este skill para operar una bóveda local de memoria en Markdown a través de tres capas: capturar entradas crudas, guardarlas en una estructura estable de carpetas y apoyar el trabajo de síntesis sobre las notas almacenadas.
 
 `docs/` es la bóveda concreta del proyecto actual desde la cual se instancia este skill. El mismo contrato puede instanciarse en otros proyectos con contexto y semántica propios. La forma se comparte; el significado se resuelve por proyecto.
@@ -67,6 +69,8 @@ Cuando cambie la guía del agente o el setup, vuelve a cargar el contexto o rein
 
 El repositorio todavía puede ser referenciado como `ia-skill-neurona` en rutas y notas de migración.
 
+Si el skill se usa sobre sí mismo, trátalo como `inception`: la doctrina y los manifiestos viven aquí, la CLI sigue siendo la implementación y no debe reinterpretar el contrato central.
+
 ## Flujo
 
 1. Detecta la ruta de la bóveda desde `--vault`, luego `NEURONA_VAULT`, luego la solicitud del usuario. Si falta, pídela o usa el directorio actual sólo cuando ya contenga `00-INBOX` y `05-NEURONA`.
@@ -105,6 +109,8 @@ Cuando el skill opere con varias memorias al mismo tiempo, resuelve en este orde
 4. memorias conectadas externas.
 
 No fusiones esos contextos por defecto. Si una fuente no está identificada, trátala como local y conservadora hasta que el LLM decida lo contrario.
+
+Si convive con una memoria nativa del agente, no intentes fusionar la memoria del agente con la del proyecto: usa la memoria del agente para contexto conversacional y `mem` para la bóveda operativa del repo.
 
 ## Modelo De Memoria Temporal
 

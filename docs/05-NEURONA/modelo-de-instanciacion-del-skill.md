@@ -39,6 +39,8 @@ Una instancia local bien formada debe tener, como mínimo:
 
 La composición local no debe inferirse por accidente. Debe poder instalarse, verificarse y recargarse de forma explícita. Si el estado o las guías cambian, el agente debe volver a cargar el contexto o reiniciar la sesión antes de seguir operando.
 
+Si el entorno ya tiene una memoria nativa como `Memories`, esta instancia no la reemplaza: la complementa. La memoria nativa conserva el contexto conversacional del agente y `mem` conserva la bóveda del proyecto.
+
 ## Criterio
 
 La instancia es válida cuando:

@@ -69,6 +69,8 @@ En esa relación:
 `docs/` es la bóveda concreta del proyecto actual desde la cual se instancia `$mem`.
 No es el skill en sí. El contrato se comparte, pero la semántica y la red son específicas de la instancia.
 
+Si la instancia convive con una memoria nativa del agente, usa `Memories` para el contexto general y `mem` para la bóveda operativa del proyecto. No mezcles ambas capas por defecto.
+
 ## Qué queda dentro y fuera
 
 Dentro:
@@ -119,6 +121,7 @@ El LLM decide su contenido, su valor y sus vínculos.
 `docs/` es la bóveda concreta del proyecto actual; `.tmp/` es memoria de trabajo del skill.
 `scripts/setup-repo-for-agents.sh` materializa la composición local del repo para agentes de codificación IA y escribe su estado en `.tmp/agents-setup-state.json`.
 `scripts/agents-healthcheck.sh` valida esa composición local y devuelve si la sesión debe recargarse.
+Cuando esta instancia opera sobre sí misma, la doctrina vive aquí y la CLI ejecuta la implementación sin reinterpretar el contrato.
 
 ## Relacionado
 
