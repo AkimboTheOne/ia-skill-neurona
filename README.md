@@ -212,6 +212,8 @@ Este repositorio ya está en un punto útil para una primera publicación remota
 - referencias base y plantillas de instancia;
 - red de neuronas para operación y criterio.
 
+La versión visible en este `README.md` debe coincidir con el tag publicado del repositorio. Para consumo cross o instalación local, el checkout del tag estable es la fuente canónica descargable.
+
 ## Licencia
 
 Este proyecto se distribuye bajo la licencia indicada en [`LICENSE`](LICENSE).
