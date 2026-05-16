@@ -34,7 +34,7 @@ flowchart TD
     N --> L[docs/05-NEURONA/llms.txt]
 
     I --> T[Plantilla de referencia de instancia]
-    I --> V[docs/ = bóveda activa]
+    I --> V[docs/ = bóveda activa descendiente]
     I --> M[.tmp/ = memoria temporal]
 
     C --> V
@@ -66,6 +66,7 @@ flowchart TD
 - `agent.json` y `llms.txt` exponen el mapa de capacidades.
 - La CLI mueve y organiza la bóveda.
 - El LLM decide adaptación, curaduría y síntesis.
+- La raíz del repo no es una bóveda válida; la instancia debe apuntar a un descendiente explícito.
 
 ## Relacionado
 

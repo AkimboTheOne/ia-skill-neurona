@@ -3,7 +3,7 @@ title: mem
 project: ia-skill-neurona
 description: Módulo de memoria operativa instanciable en Markdown para capturar, curar, conectar y sintetizar conocimiento de proyecto.
 status: active
-version: 0.1.1
+version: 0.1.2
 tags:
   - mem
   - skill
@@ -16,7 +16,7 @@ tags:
 
 # `$mem` / `ia-skill-neurona`
 
-[![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](.)
+[![Version](https://img.shields.io/badge/version-0.1.2-blue.svg)](.)
 [![Status](https://img.shields.io/badge/status-active-green.svg)](.)
 [![License](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-Markdown%20vault-informational.svg)](docs/05-NEURONA/neurona.md)
@@ -36,6 +36,8 @@ Este repositorio es el producto completo:
 
 No es sólo una carpeta de notas. Es un sistema de trabajo para construir memoria de proyecto con estructura, trazabilidad y una capa de síntesis reutilizable. El contenido de `docs/` está pensado sobre todo para el agente/LLM que opera el flujo del proyecto, no para competir con el contrato del skill.
 Cuando el skill se usa sobre sí mismo, el repositorio entra en modo de incepción: la documentación gobierna el contrato y la CLI sólo ejecuta operaciones deterministas.
+
+La bóveda activa de esta instancia vive en `docs/`, no en la raíz del repositorio. Esa frontera es intencional: la raíz preserva el contrato del producto y la bóveda preserva la memoria operativa.
 
 ## Setup para agentes
 
@@ -116,7 +118,10 @@ Genera conexiones o briefs:
 ```bash
 scripts/neurona.sh connect --vault "$NEURONA_VAULT"
 scripts/neurona.sh brief --vault "$NEURONA_VAULT" --topic "tema"
+scripts/neurona.sh ask --vault "$NEURONA_VAULT" --query "tema"
 ```
+
+`ask` consulta la bóveda por etapas con coincidencia heurística y devuelve JSON con coincidencias, puntuación y un `preview` breve. Sirve para reabrir stages y alimentar el razonamiento del LLM.
 
 ### Smoke test
 
@@ -127,7 +132,7 @@ bash scripts/mini-suite.sh
 ```
 
 La suite crea una bóveda efímera en `.tmp/mini-suite-vault`, ejecuta `init`, `status`, `capture`,
-`process-inbox`, `connect` y `brief`, y verifica que cada etapa deje artefactos válidos.
+`process-inbox`, `connect`, `ask` y `brief`, y verifica que cada etapa deje artefactos válidos.
 
 ## Cómo está estructurado
 
@@ -153,6 +158,24 @@ Resumen operativo:
 - `02-CONNECTIONS`: relaciones entre notas.
 - `03-BRIEFS`: síntesis listas para usar.
 - `05-NEURONA`: doctrina, guías e índice del modelo.
+
+## Gobernanza de instancia
+
+La instancia actual se declara sobre una bóveda descendiente explícita:
+
+- `skill_root`: este repositorio;
+- `project_repo`: el repositorio donde opera el agente;
+- `vault_repo`: `docs/` como bóveda viva por defecto;
+- `skill_tmp`: `.tmp/` para trabajo temporal y mapas.
+
+`ask` es parte del MVP y está disponible como superficie pública de consulta. Úsalo cuando quieras recuperar evidencia por etapas sin navegar manualmente toda la red:
+
+```bash
+scripts/neurona.sh ask --vault "$NEURONA_VAULT" --query "descendant vault"
+scripts/neurona.sh ask --vault "$NEURONA_VAULT" --query "governance" --stage captures --stage connections
+```
+
+La memoria nativa del agente, si existe, sigue siendo conversacional. `mem` gobierna la memoria operativa del proyecto. No se mezclan por defecto.
 
 ## Cómo navegar el repositorio
 

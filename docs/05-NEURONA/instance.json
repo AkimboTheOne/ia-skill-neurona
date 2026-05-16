@@ -3,7 +3,8 @@
     "external": [],
     "project": [
       "docs/05-NEURONA/neurona.md",
-      "docs/05-NEURONA/agent.json"
+      "docs/05-NEURONA/agent.json",
+      "docs/05-NEURONA/modelo-de-instanciacion-del-skill.md"
     ],
     "skill": [
       "SKILL.md"
@@ -11,8 +12,11 @@
     "user": []
   },
   "mode": "project",
-  "project_vault": "/Users/avalbuenae/Workspaces/ai-hub/skills/ia-skill-neurona/docs",
-  "skill_tmp": ".tmp/vault",
+  "project_repo": "/Users/avalbuenae/Workspaces/ai-hub/skills/ia-skill-neurona",
+  "project_vault": "/Users/avalbuenae/Workspaces/ia-hub/skills/ia-skill-neurona/docs",
+  "reference_model": "agnostic-base-plus-instance-template",
   "reference_template": "documentary-memory",
-  "reference_model": "agnostic-base-plus-instance-template"
+  "skill_root": "/Users/avalbuenae/Workspaces/ia-hub/skills/ia-skill-neurona",
+  "skill_tmp": ".tmp",
+  "vault_repo": "/Users/avalbuenae/Workspaces/ia-hub/skills/ia-skill-neurona/docs"
 }

@@ -1,22 +1,26 @@
 ---
-created: 2026-05-15T15:48:00-05:00
-type: inbox
-status: raw
-source: manual
+created: 2026-05-15T16:17:00-05:00
+type: patterns
+status: processed
+source: inbox
+source_file: docs/03-BRIEFS/20260515-160000-mini-proyecto-gobernanza-multi-instancia-y-boveda-descendiente.md
 tags:
+  - pattern
   - capture
-  - inbox
   - mem
   - diagram
-  - multi-repo
   - governance
 aliases:
-  - "Capture: Idea de soporte visual para diagrama multi-repo y gobernanza"
+  - Soporte visual de diagrama multi-repo y gobernanza
 ---
 
-# Capture: Idea de soporte visual para diagrama multi-repo y gobernanza
+# Soporte visual de diagrama multi-repo y gobernanza
 
-## Raw
+## Sharpened
+
+El patrón multi-repo debe representarse como contrato, instancia, contexto y bóveda separados para hacer visible que `docs/` es la bóveda viva y que la raíz no debe contaminarse.
+
+## Raw Capture
 
 Quiero una nota de soporte visual para revisar con claridad el escenario multi-repo del skill `$mem`: un repo del skill cross, un repo X de trabajo y un repo Y que actúa como bóveda viva del proyecto.
 
