@@ -71,5 +71,6 @@ flowchart TD
 
 - [Neurona del Proyecto](neurona.md)
 - [Modelo de instanciación del skill](modelo-de-instanciacion-del-skill.md)
+- [Diagrama de servicio instanciable FastAPI/MCP](diagrama-servicio-instanciable-fastapi-mcp.md)
 - [Cómo otro agente llegaría a la misma conclusión](como-otro-agente-llegaria-a-la-misma-conclusion.md)
 - [Estructura de la Bóveda](../../references/vault-structure.md)

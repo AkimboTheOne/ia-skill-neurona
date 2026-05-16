@@ -1,0 +1,11 @@
+services:
+  mem-api:
+    build:
+      context: ../..
+      dockerfile: plugins/mem-api/Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "${PORT:-8000}:8000"
+    volumes:
+      - ../../docs:/vault:ro

@@ -55,9 +55,15 @@ La instancia es válida cuando:
 
 `docs/` sigue siendo la bóveda del proyecto y `references/` sigue siendo el soporte agnóstico. Este modelo sólo aclara cómo se monta la instancia local para que un agente nuevo pueda orientar la sesión sin adivinar la presencia de archivos, symlinks o copias.
 
+Cuando la instancia se expone como servicio durante un spike, la implementación puede vivir en `plugins/` y declarar explícitamente la bóveda consumida. La primera fachada puede ser FastAPI; MCP es una evolución posterior sobre la misma base. La regla operacional sigue siendo una: una instancia, una bóveda, un contrato.
+
+Si el servicio madura como producto, debe poder salir a un repositorio propio y consumir este skill como submódulo Git fijado a una versión concreta. Esa separación protege el contrato central del skill y permite que el runtime tenga su propio ciclo de vida.
+
 ## Relacionado
 
 - [Neurona del Proyecto](neurona.md)
 - [Guía operativa canónica para automatizaciones de agentes LLM](guia-operativa-canonica-para-automatizaciones-de-agentes-llm.md)
 - [Diagrama de arquitectura instanciable](diagrama-arquitectura-instanciable.md)
+- [Diagrama de servicio instanciable FastAPI/MCP](diagrama-servicio-instanciable-fastapi-mcp.md)
+- [Spike de servicio API/MCP y proyecto separado](spike-servicio-api-mcp-y-proyecto-separado.md)
 - [Alcance de `references/` en el skill `$mem`](alcance-de-references-en-el-skill-mem.md)
