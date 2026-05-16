@@ -1,19 +1,26 @@
 ---
-created: 2026-05-15T15:27:00-05:00
-type: inbox
-status: raw
-source: manual
+created: 2026-05-15T16:15:00-05:00
+type: patterns
+status: processed
+source: inbox
+source_file: docs/03-BRIEFS/20260515-160000-mini-proyecto-gobernanza-multi-instancia-y-boveda-descendiente.md
 tags:
+  - pattern
   - capture
-  - inbox
   - mem
+  - setup
+  - vault
 aliases:
-  - "Capture: Feature de setup agnóstico y bóveda descendiente"
+  - Setup agnóstico y bóveda descendiente
 ---
 
-# Capture: Feature de setup agnóstico y bóveda descendiente
+# Setup agnóstico y bóveda descendiente
 
-## Raw
+## Sharpened
+
+El setup de `$mem` debe rechazar la raíz como bóveda activa y tratar `docs/` como bóveda descendiente por defecto para preservar la frontera entre contrato y memoria viva.
+
+## Raw Capture
 
 Necesitamos una feature doctrinal y de implementación para cerrar la tensión entre setup, bóveda del proyecto y uso del skill como herramienta cross.
 

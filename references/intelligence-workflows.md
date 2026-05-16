@@ -31,6 +31,23 @@ El agente/LLM debe proponer ajustes cuando la instancia necesite una de estas or
 
 La regla es no romper el espíritu modular del skill: la plantilla orienta, la instancia adapta y el contrato central permanece estable.
 
+## Gobernanza multi-instancia
+
+El contrato de esta fase no implementa una API de consulta completa. Sí fija el vocabulario mínimo para que la
+instancia pueda declararse sin ambigüedad:
+
+- `skill_root`: repositorio del skill.
+- `project_repo`: repo donde el agente está trabajando.
+- `vault_repo`: bóveda activa descendiente, por defecto `docs/`.
+- `skill_tmp`: memoria temporal fuera de la red viva.
+- `context`: fuente conectada explícitamente.
+
+No fusionar contextos por defecto. Si una fuente no está identificada, trátala como local hasta que el LLM decida
+su valor y su frontera de escritura.
+
+`ask` queda como contrato futuro de recuperación guiada. En esta iteración sólo se documenta la intención y la
+separación de responsabilidades entre consulta, navegación y síntesis.
+
 ## Procesamiento del inbox
 
 Clasifica cada nota cruda en un tipo de captura:

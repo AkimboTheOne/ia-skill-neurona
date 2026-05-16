@@ -12,17 +12,17 @@ La neurona define la unidad viva del proyecto: no almacena todo el conocimiento,
 - Procesar capturas en notas Markdown tipadas y curadas en español.
 - Generar reportes de conexiones y briefs del proyecto.
 
-## Interfaz
-Usa `scripts/neurona.sh <comando> --vault <ruta>` o exporta `NEURONA_VAULT`.
-Los comandos devuelven JSON.
-
 ## Instancias
 - `docs/` es la bóveda del proyecto actual desde la cual se instancia este skill.
 - `.tmp/` es memoria de trabajo temporal del skill.
-- El skill puede instanciarse como CLI cruzado, plugin, incepción o servidor futuro.
-- `scripts/setup-repo-for-agents.sh` materializa la composición local del repositorio para agentes.
-- `scripts/agents-healthcheck.sh` valida el último estado de esa composición local.
-- Si cambian las guías o la composición, el agente debe recargar contexto o reiniciar la sesión.
+- El skill puede instanciarse como CLI cross, plugin, incepción o servidor futuro.
+- La raíz del repo no es bóveda activa.
+- La instancia debe declarar `skill_root`, `project_repo`, `vault_repo` y `skill_tmp` de forma explícita.
+
+## Interfaz
+Usa `scripts/neurona.sh <comando> --vault <ruta>` o exporta `NEURONA_VAULT`.
+Los comandos devuelven JSON.
+`ask` es el MVP de consulta coordinada: reabre stages y devuelve coincidencias heurísticas.
 
 ## Referencias
 - `references/` es agnóstico por defecto.
