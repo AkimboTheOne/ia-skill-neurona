@@ -9,6 +9,8 @@ La neurona define la unidad viva del proyecto: no almacena todo el conocimiento,
 
 ## Capacidades
 - Capturar texto crudo en `00-INBOX` con propiedades canónicas.
+- Consolidar conversaciones de trabajo con `conversation_id` en `01-CAPTURES/observations`.
+- Consultar plantillas operativas por fase con `templates list/show`.
 - Procesar capturas en notas Markdown tipadas y curadas en español.
 - Generar reportes de conexiones y briefs del proyecto.
 
@@ -23,6 +25,14 @@ La neurona define la unidad viva del proyecto: no almacena todo el conocimiento,
 Usa `scripts/neurona.sh <comando> --vault <ruta>` o exporta `NEURONA_VAULT`.
 Los comandos devuelven JSON.
 `ask` es el MVP de consulta coordinada: reabre stages y devuelve coincidencias heurísticas.
+`conversation` captura, actualiza o sincroniza sesiones en una nota trazable sin volcar el chat completo.
+`templates` entrega andamios de `prepare`, `capture`, `conversation`, `connect`, `brief` y `close`.
+
+## Loop operativo
+El protocolo mínimo es `preparar -> operar -> cerrar`.
+Antes de operar, recupera contexto y pide la plantilla de fase.
+Durante la operación, usa la plantilla como andamio sin delegar el juicio semántico al skill.
+Al cerrar, deja resultado, evidencia, relaciones sugeridas, pendientes y criterio de elevación.
 
 ## Referencias
 - `references/` es agnóstico por defecto.

@@ -3,7 +3,7 @@ title: mem
 project: ia-skill-neurona
 description: Módulo de memoria operativa instanciable en Markdown para capturar, curar, conectar y sintetizar conocimiento de proyecto.
 status: active
-version: 0.1.2
+version: 0.2.0
 tags:
   - mem
   - skill
@@ -16,7 +16,7 @@ tags:
 
 # `$mem` / `ia-skill-neurona`
 
-[![Version](https://img.shields.io/badge/version-0.1.2-blue.svg)](.)
+[![Version](https://img.shields.io/badge/version-0.2.0-blue.svg)](.)
 [![Status](https://img.shields.io/badge/status-active-green.svg)](.)
 [![License](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-Markdown%20vault-informational.svg)](docs/05-NEURONA/neurona.md)
@@ -72,6 +72,8 @@ Si ya usas una memoria nativa del agente, trata este repo como la capa de memori
 
 - Captura ideas crudas con fricción mínima.
 - Organiza la memoria por tipo, no por tema.
+- Consolida conversaciones de trabajo como notas trazables con `conversation_id`.
+- Expone plantillas operativas para que el agente siga el loop `preparar -> operar -> cerrar`.
 - Conecta notas cuando existe un principio, tensión o patrón común.
 - Genera briefs cuando la red ya tiene forma comunicable.
 - Eleva ideas maduras a `05-NEURONA` cuando ya gobiernan el modelo.
@@ -107,6 +109,13 @@ Captura una idea cruda:
 scripts/neurona.sh capture --vault "$NEURONA_VAULT" --text "una idea breve"
 ```
 
+Consulta una plantilla operativa antes de escribir:
+
+```bash
+scripts/neurona.sh templates list --vault "$NEURONA_VAULT"
+scripts/neurona.sh templates show --vault "$NEURONA_VAULT" --phase conversation
+```
+
 Procesa el inbox:
 
 ```bash
@@ -122,6 +131,7 @@ scripts/neurona.sh ask --vault "$NEURONA_VAULT" --query "tema"
 ```
 
 `ask` consulta la bóveda por etapas con coincidencia heurística y devuelve JSON con coincidencias, puntuación y un `preview` breve. Sirve para reabrir stages y alimentar el razonamiento del LLM.
+`templates` entrega andamios por fase para preparar, operar y cerrar sin que el skill decida significado.
 
 ### Smoke test
 
@@ -132,7 +142,7 @@ bash scripts/mini-suite.sh
 ```
 
 La suite crea una bóveda efímera en `.tmp/mini-suite-vault`, ejecuta `init`, `status`, `capture`,
-`process-inbox`, `connect`, `ask` y `brief`, y verifica que cada etapa deje artefactos válidos.
+`templates`, `process-inbox`, `connect`, `ask`, `brief` y `conversation`, y verifica que cada etapa deje artefactos válidos.
 
 ## Cómo está estructurado
 
@@ -174,6 +184,12 @@ La instancia actual se declara sobre una bóveda descendiente explícita:
 scripts/neurona.sh ask --vault "$NEURONA_VAULT" --query "descendant vault"
 scripts/neurona.sh ask --vault "$NEURONA_VAULT" --query "governance" --stage captures --stage connections
 ```
+
+El loop operativo canónico para agentes es:
+
+`preparar -> operar -> cerrar`
+
+Antes de operar, el agente debe recuperar contexto y pedir la plantilla de fase. Durante la operación, usa la plantilla como andamio. Al cerrar, deja resultado, evidencia, relaciones sugeridas, pendientes y criterio de elevación.
 
 La memoria nativa del agente, si existe, sigue siendo conversacional. `mem` gobierna la memoria operativa del proyecto. No se mezclan por defecto.
 

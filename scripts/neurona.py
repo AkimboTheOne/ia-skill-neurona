@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.1.2"
+VERSION = "0.2.0"
 
 CAPTURE_TYPES = ("observations", "reactions", "patterns", "questions", "numbers")
 REQUIRED_DIRS = (
@@ -38,6 +38,194 @@ DEFAULT_INSTANCE = {
         "skill": [],
         "external": [],
     },
+}
+
+TEMPLATE_PHASES = ("prepare", "capture", "conversation", "connect", "brief", "close")
+
+PHASE_TEMPLATES: dict[str, dict[str, Any]] = {
+    "prepare": {
+        "purpose": "Recuperar contexto mínimo antes de operar la bóveda.",
+        "required_sections": ["Objetivo", "Contexto recuperado", "Frontera de escritura", "Siguiente operación"],
+        "indexing_cues": ["query", "stage", "vault", "context"],
+        "relation_cues": ["notas fuente", "decisiones previas", "tensiones abiertas"],
+        "handoff_contract": "El agente debe saber qué va a tocar, qué no va a tocar y qué evidencia consultó.",
+        "template": """## Objetivo
+- Qué intenta resolver esta operación en una oración.
+
+## Contexto recuperado
+- Resultado relevante de `status`, `ask` o lectura directa.
+
+## Frontera de escritura
+- Archivos o stages que pueden cambiar.
+- Archivos o stages fuera de alcance.
+
+## Siguiente operación
+- Comando o acción que sigue.
+""",
+    },
+    "capture": {
+        "purpose": "Guardar una entrada cruda sin perder procedencia ni forzar madurez.",
+        "required_sections": ["Captura cruda", "Procedencia", "Clasificación tentativa", "Señales de madurez"],
+        "indexing_cues": ["source", "tags", "type", "status"],
+        "relation_cues": ["posibles notas relacionadas", "preguntas abiertas"],
+        "handoff_contract": "La captura debe quedar auditable y lista para procesarse sin depender de contexto implícito.",
+        "template": """## Captura cruda
+Texto original sin reescritura.
+
+## Procedencia
+- Origen:
+- Fecha o sesión:
+
+## Clasificación tentativa
+- Tipo probable:
+- Razón:
+
+## Señales de madurez
+- Puede quedarse en inbox porque:
+- Podría conectar con:
+""",
+    },
+    "conversation": {
+        "purpose": "Consolidar una conversación como síntesis densa, trazable y reabrible.",
+        "required_sections": [
+            "Contexto operativo",
+            "Resumen sustantivo",
+            "Decisiones",
+            "Evidencia y enlaces",
+            "Relaciones sugeridas",
+            "Pendientes",
+            "Próximos pasos",
+            "Riesgos",
+            "Transcripción relevante",
+        ],
+        "indexing_cues": ["conversation_id", "decisions", "pending", "source_file", "tags"],
+        "relation_cues": ["capturas relacionadas", "conexiones a crear", "doctrina impactada"],
+        "handoff_contract": "Otro agente debe poder continuar la sesión sin leer el chat completo.",
+        "template": """## Contexto operativo
+- Proyecto o instancia:
+- Objetivo de la conversación:
+- Estado inicial relevante:
+
+## Resumen sustantivo
+- Punto central discutido.
+- Matices importantes que no deben perderse.
+
+## Decisiones
+- Decisión tomada y razón.
+
+## Evidencia y enlaces
+- Archivos, notas, comandos o hechos usados como evidencia.
+
+## Relaciones sugeridas
+- Capturas, conexiones o neuronas que deberían vincularse.
+
+## Pendientes
+- Preguntas o tareas abiertas.
+
+## Próximos pasos
+- Acción siguiente recomendada.
+
+## Riesgos
+- Qué podría romperse, perderse o malinterpretarse.
+
+## Transcripción relevante
+Extractos mínimos o paráfrasis necesaria para auditar el contexto.
+""",
+    },
+    "connect": {
+        "purpose": "Convertir notas relacionadas en una conexión útil, no en coincidencia superficial.",
+        "required_sections": ["Notas fuente", "Principio o tensión", "Relación", "Valor operativo"],
+        "indexing_cues": ["source_file", "connection_type", "tags"],
+        "relation_cues": ["same-principle", "contradiction", "pattern", "question-answer"],
+        "handoff_contract": "La conexión debe explicar por qué las notas se necesitan mutuamente.",
+        "template": """## Notas fuente
+- Archivo:
+- Archivo:
+
+## Principio o tensión
+- Qué idea común, contradicción o patrón aparece.
+
+## Relación
+- Tipo de conexión:
+- Cómo se sostiene con evidencia.
+
+## Valor operativo
+- Para qué le sirve esta conexión a un agente futuro.
+""",
+    },
+    "brief": {
+        "purpose": "Sintetizar una red madura en una pieza comunicable con prueba explícita.",
+        "required_sections": ["ONE THING", "PROOF", "READER TRANSFORMATION", "THREE HOOKS", "THREE CLOSERS"],
+        "indexing_cues": ["topic", "source_file", "evidence", "tags"],
+        "relation_cues": ["conexiones fuente", "capturas fuente", "doctrina relacionada"],
+        "handoff_contract": "El brief debe declarar si la evidencia es fuerte o insuficiente.",
+        "template": """## ONE THING
+Una sola oración.
+
+## PROOF
+La evidencia, número o ejemplo más concreto disponible.
+
+## READER TRANSFORMATION
+Qué entiende el lector después de leer.
+
+## THREE HOOKS
+1. Gancho agresivo.
+2. Gancho curioso.
+3. Gancho personal.
+
+## THREE CLOSERS
+1. Cierre urgente.
+2. Cierre memorable.
+3. Cierre reflexivo.
+""",
+    },
+    "close": {
+        "purpose": "Cerrar una operación dejando handoff, relaciones y criterio de elevación.",
+        "required_sections": ["Resultado", "Archivos tocados", "Relaciones creadas", "Pendientes", "Criterio de elevación"],
+        "indexing_cues": ["status", "source_file", "tags", "reviewed"],
+        "relation_cues": ["captura origen", "brief relacionado", "neurona impactada"],
+        "handoff_contract": "El cierre debe permitir retomar la evolución sin reconstruir la conversación.",
+        "template": """## Resultado
+- Qué cambió o qué se aprendió.
+
+## Archivos tocados
+- Ruta y razón.
+
+## Relaciones creadas
+- Qué notas deberían conectarse o ya quedaron conectadas.
+
+## Pendientes
+- Qué queda abierto.
+
+## Criterio de elevación
+- Debe subir a `05-NEURONA` porque:
+- Debe permanecer en `01/02/03` porque:
+""",
+    },
+}
+
+CONVERSATION_SECTION_ALIASES = {
+    "contexto_operativo": {"## contexto operativo", "# contexto operativo", "contexto operativo:", "## context", "# context", "context:"},
+    "resumen_sustantivo": {"## resumen sustantivo", "# resumen sustantivo", "resumen sustantivo:", "## summary", "# summary", "summary:"},
+    "decisiones": {"## decisiones", "# decisiones", "decisiones:", "## decisions", "# decisions", "decisions:"},
+    "evidencia_y_enlaces": {"## evidencia y enlaces", "# evidencia y enlaces", "evidencia y enlaces:", "## evidence and links", "# evidence and links", "evidence and links:"},
+    "relaciones_sugeridas": {"## relaciones sugeridas", "# relaciones sugeridas", "relaciones sugeridas:", "## suggested relations", "# suggested relations", "suggested relations:"},
+    "pendientes": {"## pendientes", "# pendientes", "pendientes:", "## open questions", "# open questions", "open questions:", "## questions", "# questions", "questions:"},
+    "proximos_pasos": {"## próximos pasos", "# próximos pasos", "próximos pasos:", "## proximos pasos", "# proximos pasos", "proximos pasos:", "## next steps", "# next steps", "next steps:"},
+    "riesgos": {"## riesgos", "# riesgos", "riesgos:", "## risks", "# risks", "risks:"},
+    "transcripcion_relevante": {"## transcripción relevante", "# transcripción relevante", "transcripción relevante:", "## transcripcion relevante", "# transcripcion relevante", "transcripcion relevante:", "## transcript", "# transcript", "transcript:"},
+}
+
+CONVERSATION_SECTION_TITLES = {
+    "contexto_operativo": "Contexto operativo",
+    "resumen_sustantivo": "Resumen sustantivo",
+    "decisiones": "Decisiones",
+    "evidencia_y_enlaces": "Evidencia y enlaces",
+    "relaciones_sugeridas": "Relaciones sugeridas",
+    "pendientes": "Pendientes",
+    "proximos_pasos": "Próximos pasos",
+    "riesgos": "Riesgos",
+    "transcripcion_relevante": "Transcripción relevante",
 }
 
 
@@ -167,6 +355,106 @@ def title_from_text(prefix: str, text: str) -> str:
     return f"{prefix}: {title}"
 
 
+def conversation_slug(text: str) -> str:
+    return slugify(first_sentence(text), "conversation")
+
+
+def conversation_id_from_text(text: str) -> str:
+    compact = re.sub(r"\s+", "-", conversation_slug(text))
+    return compact or "conversation"
+
+
+def conversation_note_path(vault: Path, conversation_id: str, text: str | None = None) -> Path:
+    if text:
+        stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        stem = f"{stamp}-{conversation_id}-{conversation_slug(text)}"
+    else:
+        stem = conversation_id
+    return vault / "01-CAPTURES" / "observations" / f"{stem}.md"
+
+
+def conversation_lookup(vault: Path, conversation_id: str) -> Path | None:
+    target = f"conversation_id: {conversation_id}"
+    for path in markdown_files(vault / "01-CAPTURES" / "observations"):
+        if target in path.read_text(encoding="utf-8"):
+            return path
+    return None
+
+
+def parse_conversation_text(text: str) -> tuple[dict[str, list[str]], list[str]]:
+    lines = [line.rstrip() for line in text.strip().splitlines()]
+    sections: dict[str, list[str]] = {key: [] for key in CONVERSATION_SECTION_TITLES}
+    section = "transcripcion_relevante"
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            continue
+        lowered = stripped.lower()
+        matched = next((key for key, aliases in CONVERSATION_SECTION_ALIASES.items() if lowered in aliases), None)
+        if matched:
+            section = matched
+            continue
+        sections[section].append(stripped)
+
+    if not sections["resumen_sustantivo"]:
+        sections["resumen_sustantivo"] = [first_sentence(text)]
+    if not sections["transcripcion_relevante"]:
+        sections["transcripcion_relevante"] = [text.strip()]
+
+    missing = [
+        CONVERSATION_SECTION_TITLES[key]
+        for key, value in sections.items()
+        if key not in {"transcripcion_relevante"} and not value
+    ]
+    warnings = [f"Conversation template missing section: {name}" for name in missing]
+    return sections, warnings
+
+
+def conversation_body(title: str, parsed: dict[str, list[str]]) -> str:
+    parts = [f"# {title}", ""]
+    for key, title_text in CONVERSATION_SECTION_TITLES.items():
+        items = parsed[key]
+        parts.extend([f"## {title_text}", ""])
+        if items:
+            parts.extend(f"- {item}" for item in items)
+        else:
+            parts.append("- Pendiente.")
+        parts.append("")
+    return "\n".join(parts).rstrip() + "\n"
+
+
+def write_conversation_note(vault: Path, conversation_id: str, text: str, source: str, existing: Path | None = None) -> tuple[Path, dict[str, Any], list[str]]:
+    now = datetime.now().astimezone().replace(microsecond=0).isoformat()
+    parsed, warnings = parse_conversation_text(text)
+    title = title_from_text("Conversation", text)
+    target = existing or conversation_note_path(vault, conversation_id, text)
+    content = frontmatter(
+        {
+            "created": now,
+            "type": "observations",
+            "status": "processed",
+            "source": source,
+            "conversation_id": conversation_id,
+            "tags": ["conversation", "capture", "mem"],
+            "aliases": [title],
+        }
+    ) + conversation_body(title, parsed)
+    target.write_text(content, encoding="utf-8")
+    return target, {
+        "conversation_id": conversation_id,
+        "title": title,
+        "context_lines": len(parsed["contexto_operativo"]),
+        "summary_lines": len(parsed["resumen_sustantivo"]),
+        "decision_lines": len(parsed["decisiones"]),
+        "evidence_lines": len(parsed["evidencia_y_enlaces"]),
+        "relation_lines": len(parsed["relaciones_sugeridas"]),
+        "pending_lines": len(parsed["pendientes"]),
+        "next_step_lines": len(parsed["proximos_pasos"]),
+        "risk_lines": len(parsed["riesgos"]),
+    }, warnings
+
+
 def yaml_scalar(value: str | int | float | bool) -> str:
     if isinstance(value, bool):
         return "true" if value else "false"
@@ -216,6 +504,8 @@ def command_init(args: argparse.Namespace) -> None:
             {"name": "init-repo-vault", "description": "Initialize the current repo as the vault and emit NEURONA_VAULT exports."},
             {"name": "config", "description": "Declare the active instance, contexts, and temporary skill memory."},
             {"name": "capture", "description": "Write a raw capture into 00-INBOX."},
+            {"name": "conversation", "description": "Capture, update, or sync a consolidated conversation note."},
+            {"name": "templates", "description": "List or show operational templates for each memory phase."},
             {"name": "process-inbox", "description": "Classify inbox notes into 01-CAPTURES."},
             {"name": "connect", "description": "Generate a heuristic connection report."},
             {"name": "brief", "description": "Generate a five-field brief for a topic."},
@@ -249,6 +539,7 @@ def command_init(args: argparse.Namespace) -> None:
                 "documentary-memory",
                 "cognitive-memory",
             ],
+            "operational_phases": list(TEMPLATE_PHASES),
         },
         "output_contract": {
             "ok": "boolean",
@@ -276,6 +567,8 @@ def command_init(args: argparse.Namespace) -> None:
             "La neurona define la unidad viva del proyecto: no almacena todo el conocimiento, sino el modelo operativo que mantiene coherente la red.\n\n"
             "## Capacidades\n"
             "- Capturar texto crudo en `00-INBOX` con propiedades canónicas.\n"
+            "- Consolidar conversaciones de trabajo con `conversation_id` en `01-CAPTURES/observations`.\n"
+            "- Consultar plantillas operativas por fase con `templates list/show`.\n"
             "- Procesar capturas en notas Markdown tipadas y curadas en español.\n"
             "- Generar reportes de conexiones y briefs del proyecto.\n\n"
             "## Instancias\n"
@@ -289,6 +582,8 @@ def command_init(args: argparse.Namespace) -> None:
             "## Interfaz\n"
             "Usa `scripts/neurona.sh <comando> --vault <ruta>` o exporta `NEURONA_VAULT`.\n"
             "Los comandos devuelven JSON.\n\n"
+            "`conversation` captura, actualiza o sincroniza sesiones en una nota trazable sin volcar el chat completo.\n\n"
+            "`templates` entrega andamios de `prepare`, `capture`, `conversation`, `connect`, `brief` y `close`.\n\n"
             "## Properties\n"
             "New notes use YAML frontmatter with `created`, `type`, `status`, `source`, `tags`, `aliases`, `source_file`, `reviewed`, and `confidence` as needed.\n",
         ),
@@ -402,6 +697,116 @@ def command_capture(args: argparse.Namespace) -> None:
             "updated_files": [],
             "warnings": [],
             "summary": {"chars": len(text), "source": args.source},
+        }
+    )
+
+
+def command_conversation(args: argparse.Namespace) -> None:
+    vault = resolve_vault(args, "conversation")
+    require_initialized("conversation", vault)
+    text = args.text.strip()
+    if not text:
+        error("conversation", str(vault), "Conversation text cannot be empty.", 2)
+
+    if args.action == "capture":
+        conversation_id = args.conversation_id or conversation_id_from_text(text)
+        existing = conversation_lookup(vault, conversation_id)
+        if existing:
+            error(
+                "conversation",
+                str(vault),
+                f"Conversation already exists for conversation_id={conversation_id}. Use `update` or `sync`.",
+                1,
+            )
+        target, summary, warnings = write_conversation_note(vault, conversation_id, text, "conversation")
+        emit(
+            {
+                "ok": True,
+                "command": "conversation capture",
+                "vault": str(vault),
+                "created_files": [str(target)],
+                "updated_files": [],
+                "warnings": warnings,
+                "summary": summary,
+            }
+        )
+        return
+
+    conversation_id = args.conversation_id
+    if not conversation_id:
+        error("conversation", str(vault), "conversation_id is required for update and sync.", 2)
+
+    existing = conversation_lookup(vault, conversation_id)
+    if args.action == "update" and not existing:
+        error(
+            "conversation",
+            str(vault),
+            f"No conversation found for conversation_id={conversation_id}.",
+            1,
+        )
+
+    target, summary, warnings = write_conversation_note(vault, conversation_id, text, "conversation", existing=existing)
+    created_files = [] if existing else [str(target)]
+    updated_files = [str(target)] if existing else []
+    emit(
+        {
+            "ok": True,
+            "command": f"conversation {args.action}",
+            "vault": str(vault),
+            "created_files": created_files,
+            "updated_files": updated_files,
+            "warnings": warnings,
+            "summary": summary,
+        }
+    )
+
+
+def command_templates(args: argparse.Namespace) -> None:
+    vault = str(vault_path(args.vault)) if args.vault else str(vault_path(os.environ["NEURONA_VAULT"])) if os.environ.get("NEURONA_VAULT") else ""
+    if args.action == "list":
+        emit(
+            {
+                "ok": True,
+                "command": "templates list",
+                "vault": vault,
+                "created_files": [],
+                "updated_files": [],
+                "warnings": [],
+                "summary": {
+                    "phases": [
+                        {
+                            "phase": phase,
+                            "purpose": PHASE_TEMPLATES[phase]["purpose"],
+                            "required_sections": PHASE_TEMPLATES[phase]["required_sections"],
+                        }
+                        for phase in TEMPLATE_PHASES
+                    ]
+                },
+            }
+        )
+
+    phase = args.phase
+    if phase not in PHASE_TEMPLATES:
+        error("templates show", vault, f"Unknown template phase: {phase}", 2)
+
+    template = PHASE_TEMPLATES[phase]
+    emit(
+        {
+            "ok": True,
+            "command": "templates show",
+            "vault": vault,
+            "created_files": [],
+            "updated_files": [],
+            "warnings": [],
+            "summary": {
+                "phase": phase,
+                "purpose": template["purpose"],
+                "required_sections": template["required_sections"],
+                "indexing_cues": template["indexing_cues"],
+                "relation_cues": template["relation_cues"],
+                "handoff_contract": template["handoff_contract"],
+                "template": template["template"],
+            },
         }
     )
 
@@ -783,6 +1188,42 @@ def build_parser() -> argparse.ArgumentParser:
     capture_parser.add_argument("--text", required=True)
     capture_parser.add_argument("--source", default="manual")
     capture_parser.set_defaults(func=command_capture)
+
+    conversation_parser = subcommands.add_parser(
+        "conversation",
+        help="Capture, update, or sync a consolidated conversation note.",
+    )
+    conversation_sub = conversation_parser.add_subparsers(dest="action", required=True)
+
+    conversation_capture = conversation_sub.add_parser("capture", help="Create a new consolidated conversation.")
+    conversation_capture.add_argument("--vault")
+    conversation_capture.add_argument("--conversation-id")
+    conversation_capture.add_argument("--text", required=True)
+    conversation_capture.set_defaults(func=command_conversation)
+
+    conversation_update = conversation_sub.add_parser("update", help="Update an existing consolidated conversation.")
+    conversation_update.add_argument("--vault")
+    conversation_update.add_argument("--conversation-id", required=True)
+    conversation_update.add_argument("--text", required=True)
+    conversation_update.set_defaults(func=command_conversation)
+
+    conversation_sync = conversation_sub.add_parser("sync", help="Create or update a consolidated conversation.")
+    conversation_sync.add_argument("--vault")
+    conversation_sync.add_argument("--conversation-id", required=True)
+    conversation_sync.add_argument("--text", required=True)
+    conversation_sync.set_defaults(func=command_conversation)
+
+    templates_parser = subcommands.add_parser("templates", help="List or show operational templates.")
+    templates_sub = templates_parser.add_subparsers(dest="action", required=True)
+
+    templates_list = templates_sub.add_parser("list", help="List available operational template phases.")
+    templates_list.add_argument("--vault")
+    templates_list.set_defaults(func=command_templates)
+
+    templates_show = templates_sub.add_parser("show", help="Show one operational template.")
+    templates_show.add_argument("--vault")
+    templates_show.add_argument("--phase", required=True, choices=TEMPLATE_PHASES)
+    templates_show.set_defaults(func=command_templates)
 
     process_parser = subcommands.add_parser("process-inbox", help="Classify inbox notes into captures.")
     process_parser.add_argument("--vault")
