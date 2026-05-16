@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILL_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-VAULT_DIR="${1:-$SKILL_DIR/.tmp/mini-suite-vault}"
+VAULT_DIR="${1:-$SKILL_DIR/ia-skill-neurona/vault}"
 
 rm -rf "$VAULT_DIR"
 mkdir -p "$VAULT_DIR"
@@ -25,6 +25,8 @@ run_json() {
 
 init_out="$(run_json init)"
 printf '%s\n' "$init_out" | python3 -c 'import json,sys; data=json.load(sys.stdin); assert data["ok"] is True and data["summary"]["directories"] == 10'
+
+bash "$SCRIPT_DIR/setup-repo-for-agents.sh" >/dev/null 2>&1
 
 status_out="$(run_json status)"
 printf '%s\n' "$status_out" | python3 -c 'import json,sys; data=json.load(sys.stdin); assert data["ok"] is True and data["summary"]["initialized"] is True'

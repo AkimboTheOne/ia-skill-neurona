@@ -1,0 +1,19 @@
+{
+  "contexts": {
+    "external": [],
+    "project": [],
+    "skill": [],
+    "user": []
+  },
+  "mode": "project",
+  "project_repo": "/Users/avalbuenae/Workspaces/ia-hub/skills/ia-skill-neurona/ia-skill-neurona",
+  "skill_root": "/Users/avalbuenae/Workspaces/ia-hub/skills/ia-skill-neurona/ia-skill-neurona",
+  "skill_tmp": "/Users/avalbuenae/Workspaces/ia-hub/skills/ia-skill-neurona/ia-skill-neurona/.tmp",
+  "vault_repo": "/Users/avalbuenae/Workspaces/ia-hub/skills/ia-skill-neurona/ia-skill-neurona/vault",
+  "vaults": {
+    "active": "default",
+    "named": {
+      "default": "/Users/avalbuenae/Workspaces/ia-hub/skills/ia-skill-neurona/ia-skill-neurona/vault"
+    }
+  }
+}

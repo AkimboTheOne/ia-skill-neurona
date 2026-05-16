@@ -17,12 +17,16 @@ path = pathlib.Path(sys.argv[1])
 data = json.loads(path.read_text())
 repo = pathlib.Path(data["repo_dir"])
 plugin = pathlib.Path(data["plugin_path"])
+instance = repo / "ia-skill-neurona" / "instance.json"
 guide = repo / "AGENTS.md"
 errors = []
 if not guide.exists():
     errors.append("missing AGENTS.md")
 if not plugin.exists():
-    errors.append("missing plugin path")
+    if data.get("plugin_status") != "unavailable":
+        errors.append("missing plugin path")
+if not instance.exists():
+    errors.append("missing instance.json")
 if data.get("plugin_status") == "conflict":
     errors.append("plugin conflict recorded")
 if errors:
@@ -33,6 +37,7 @@ print(json.dumps({
     "ok": True,
     "repo_dir": str(repo),
     "plugin_path": str(plugin),
+    "instance_path": str(instance),
     "next_step": "If AGENTS.md changed, restart the session or reload the agent context."
 }, ensure_ascii=False))
 PY

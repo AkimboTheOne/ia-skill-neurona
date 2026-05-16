@@ -48,5 +48,5 @@ Cuando el proyecto vuelva a subir versión, reutiliza esta referencia como check
 ## Relacionado
 
 - [Patrones base](baseline-patterns.md)
-- [Cierre del loop y comportamiento esperado al cerrar](../docs/05-NEURONA/cierre-del-loop-y-comportamiento-esperado-al-cerrar.md)
+- [Cierre del loop y comportamiento esperado al cerrar](cierre-del-loop-y-comportamiento-esperado-al-cerrar.md)
 - [Plantilla de referencia de instancia](instance-reference-template.md)

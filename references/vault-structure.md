@@ -10,8 +10,7 @@ Inicializa la bóveda del repositorio y las variables temporales del shell con:
 eval "$(scripts/init-repo-vault.sh)"
 ```
 
-Esto exporta `NEURONA_VAULT` a la bóveda descendiente del repositorio, normalmente `docs/`, sólo para la
-sesión actual del shell.
+Esto exporta `NEURONA_VAULT` a la bóveda descendiente del repositorio, normalmente `ia-skill-neurona/vault/`, sólo para la sesión actual del shell.
 
 Para pruebas, prefiere una bóveda ignorada y local al repositorio:
 
@@ -31,15 +30,13 @@ Esto exporta `NEURONA_VAULT` a `.tmp/vault`, evitando rutas temporales específi
 - `03-BRIEFS/`: briefs de contenido o pensamiento listos para desarrollar.
 - `05-NEURONA/`: memoria operativa del proyecto, manifiestos del skill, configuración y metadatos dirigidos a agentes.
 
-`docs/` es la bóveda concreta del proyecto actual. El mismo skill puede instanciarse en otros proyectos
-con semánticas distintas, pero conservando este contrato estructural.
+`ia-skill-neurona/vault/` es la bóveda concreta del proyecto actual. El mismo skill puede instanciarse en otros proyectos con semánticas distintas, pero conservando este contrato estructural.
+La estructura existe para curar memoria con procedencia visible, relaciones útiles y una ruta corta para que el LLM entienda el trabajo.
 
 La raíz del repositorio no es una bóveda válida. Si la instancia necesita otra ubicación para la bóveda activa,
 debe declararla como descendiente explícito del repo y validarla con el setup o con la configuración de instancia.
 
-Los pendientes de trabajo viven en `docs/00-INBOX/` mientras sigan siendo ideas crudas o propuestas sin implementar.
-No crees una carpeta separada para “pendings” salvo que una instancia lo declare explícitamente como variante de contrato.
-La condición de pendiente debe declararse con metadata (`status`, `tags`, `aliases` o campos de instancia), no con una carpeta nueva.
+Los pendientes de trabajo viven en `ia-skill-neurona/vault/00-INBOX/` mientras sigan siendo ideas crudas o propuestas sin implementar. No crees una carpeta separada para “pendings” salvo que una instancia lo declare explícitamente como variante de contrato. La condición de pendiente debe declararse con metadata (`status`, `tags`, `aliases` o campos de instancia), no con una carpeta nueva.
 
 `references/` no fija una semántica única. Debe leerse como base agnóstica y luego ajustarse por plantilla
 según el caso de uso de la instancia:
@@ -49,9 +46,7 @@ según el caso de uso de la instancia:
 - memoria tipo “cerebro” o conocimiento operativo;
 - otros usos que el agente/LLM identifique como compatibles con el contrato.
 
-Si el skill necesita memoria de trabajo temporal para mapas o planes, úsala fuera de la bóveda viva del proyecto,
-por ejemplo en `.tmp/`. La personalización de referencia debe ocurrir en la instancia operativa y no en el contrato
-central del skill.
+Si el skill necesita memoria de trabajo temporal para mapas o planes, úsala fuera de la bóveda viva del proyecto, por ejemplo en `.tmp/`. La personalización de referencia debe ocurrir en la instancia operativa y no en el contrato central del skill.
 
 ## Nombres de nota
 
@@ -153,7 +148,7 @@ Evita propiedades anidadas porque Obsidian no las soporta por completo en la int
 
 ## Configuración
 
-`05-NEURONA/instance.json` puede usarse para declarar la instancia activa del skill: modo de uso, bóveda del proyecto, memoria temporal y contextos conectados.
+`instance.json` puede usarse para declarar la instancia activa del skill: modo de uso, bóveda del proyecto, memoria temporal y contextos conectados.
 No confundir esa configuración con la memoria viva del proyecto.
 
 ## Plantillas de referencia
@@ -163,8 +158,8 @@ La plantilla debe conservar el espíritu modular del skill: guía la adaptación
 
 ## Leer más
 
-Si necesitas afinar cómo leer `docs/` como instancia concreta del skill o cómo separar la memoria temporal del skill de la memoria viva del proyecto, consulta:
+Si necesitas afinar cómo leer `ia-skill-neurona/vault/` como instancia concreta del skill o cómo separar la memoria temporal del skill de la memoria viva del proyecto, consulta:
 
-- [Neurona del Proyecto](../docs/05-NEURONA/neurona.md)
-- [Como otro agente llegaría a la misma conclusión](../docs/05-NEURONA/como-otro-agente-llegaria-a-la-misma-conclusion.md)
-- [docs/ como bóveda concreta de la instancia actual del skill](../docs/01-CAPTURES/observations/20260514-102952-idea-el-repositorio-docs-de-este-proyecto-es-una-insta.md)
+- [Neurona del Proyecto](neurona.md)
+- [Como otro agente llegaría a la misma conclusión](como-otro-agente-llegaria-a-la-misma-conclusion.md)
+- [ia-skill-neurona/vault/ como bóveda concreta de la instancia actual del skill](20260514-102952-idea-el-repositorio-docs-de-este-proyecto-es-una-insta.md)

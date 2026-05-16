@@ -66,5 +66,5 @@ Si una pieza sirve para recordar y pensar el proyecto, va a la red de memoria.
 ## Relacionado
 
 - [Neurona del Proyecto](neurona.md)
-- [Fuente consolidada de `docs/baseline`](../01-CAPTURES/patterns/20260513-172100-baseline-source-consolidated.md)
+- [Fuente consolidada de la base histórica](20260513-172100-baseline-source-consolidated.md)
 - [Flujos de Inteligencia](../references/intelligence-workflows.md)

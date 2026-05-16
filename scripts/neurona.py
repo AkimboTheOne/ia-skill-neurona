@@ -12,9 +12,11 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.1.2"
+VERSION = "0.2.0"
 
 CAPTURE_TYPES = ("observations", "reactions", "patterns", "questions", "numbers")
+SKILL_SPACE_DIRNAME = "ia-skill-neurona"
+DEFAULT_VAULT_DIRNAME = "vault"
 REQUIRED_DIRS = (
     "00-INBOX",
     "01-CAPTURES",
@@ -30,13 +32,19 @@ REQUIRED_DIRS = (
 
 DEFAULT_INSTANCE = {
     "mode": "project",
-    "project_vault": "",
+    "skill_root": "",
+    "project_repo": "",
+    "vault_repo": "",
     "skill_tmp": ".tmp",
     "contexts": {
         "user": [],
         "project": [],
         "skill": [],
         "external": [],
+    },
+    "vaults": {
+        "active": "default",
+        "named": {"default": ""},
     },
 }
 
@@ -66,15 +74,38 @@ def vault_path(raw: str) -> Path:
     return Path(raw).expanduser().resolve()
 
 
+def repo_root(start: Path) -> Path:
+    current = start.resolve()
+    for candidate in (current, *current.parents):
+        if (candidate / ".git").exists() or (candidate / "AGENTS.md").exists():
+            return candidate
+    return current
+
+
+def skill_space_root(vault: Path) -> Path:
+    return vault.parent
+
+
+def workspace_root_from_vault(vault: Path) -> Path:
+    return vault.parent.parent
+
+
+def workspace_root_from_cwd() -> Path:
+    return repo_root(Path.cwd())
+
+
+def default_vault_dir(workspace_dir: Path) -> Path:
+    return workspace_dir / SKILL_SPACE_DIRNAME / DEFAULT_VAULT_DIRNAME
+
+
+def default_instance_path(workspace_dir: Path) -> Path:
+    return workspace_dir / "instance.json"
+
+
 def resolve_vault(args: argparse.Namespace, command: str) -> Path:
     raw = args.vault or os.environ.get("NEURONA_VAULT")
     if not raw:
-        error(
-            command,
-            None,
-            "La ruta de la bóveda es obligatoria. Pasa `--vault <path>` o exporta NEURONA_VAULT.",
-            2,
-        )
+        raw = str(default_vault_dir(workspace_root_from_cwd()))
     return vault_path(raw)
 
 
@@ -88,6 +119,17 @@ def require_initialized(command: str, vault: Path) -> None:
             f"Missing: {', '.join(missing[:5])}",
             1,
         )
+
+
+def instance_path_for(vault: Path) -> Path:
+    return default_instance_path(workspace_root_from_vault(vault))
+
+
+def read_instance(vault: Path) -> dict[str, Any]:
+    path = instance_path_for(vault)
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8"))
+    return {}
 
 
 def slugify(text: str, fallback: str = "note") -> str:
@@ -170,7 +212,7 @@ def title_from_text(prefix: str, text: str) -> str:
 def yaml_scalar(value: str | int | float | bool) -> str:
     if isinstance(value, bool):
         return "true" if value else "false"
-    if isinstance(value, int | float):
+    if isinstance(value, (int, float)):
         return str(value)
     text = str(value)
     if not text:
@@ -198,6 +240,8 @@ def command_init(args: argparse.Namespace) -> None:
     created: list[str] = []
     updated: list[str] = []
     warnings: list[str] = []
+    repo_dir = workspace_root_from_vault(vault)
+    instance_path = instance_path_for(vault)
 
     for name in REQUIRED_DIRS:
         path = vault / name
@@ -209,7 +253,7 @@ def command_init(args: argparse.Namespace) -> None:
         "name": "mem",
         "reference_name": "ia-skill-neurona",
         "version": VERSION,
-        "description": "Memoria operativa del proyecto en Markdown para captura, síntesis y gobierno de la red. Activación: $mem. `docs/` es una instancia concreta del skill; `.tmp/` es memoria de trabajo temporal del skill; `05-NEURONA` gobierna el modelo.",
+        "description": "Memoria operativa del proyecto en Markdown para captura, síntesis y gobierno de la red. Activación: $mem. La bóveda contextual vive en `$BASE_DEL_REPO/ia-skill-neurona/vault/` y la instancia activa en `$BASE_DEL_REPO/ia-skill-neurona/instance.json`.",
         "auth": {"type": "none"},
         "commands": [
             {"name": "init", "description": "Create or validate the vault structure."},
@@ -236,11 +280,12 @@ def command_init(args: argparse.Namespace) -> None:
                 "skill_tmp",
                 "context",
             ],
-            "modes": ["project", "cli-cross", "plugin", "inception", "server"],
-            "project_vault": "docs/ or equivalent project vault",
+            "modes": ["project", "cli-cross", "plugin", "server"],
+            "project_vault": "vault/ under the repo-local skill space by default",
             "skill_tmp": ".tmp/ for temporary planning and maps",
             "contexts": ["user", "skill", "project", "external"],
             "reference_template": "instance-adjusted references derived from the agnostic base",
+            "vaults": "named vaults with one active default vault per repo",
         },
         "reference_model": {
             "default": "agnostic",
@@ -262,7 +307,6 @@ def command_init(args: argparse.Namespace) -> None:
     }
     manifest_path = vault / "05-NEURONA" / "agent.json"
     llms_path = vault / "05-NEURONA" / "llms.txt"
-    instance_path = vault / "05-NEURONA" / "instance.json"
     instance_exists = instance_path.exists()
 
     for path, content in (
@@ -279,9 +323,10 @@ def command_init(args: argparse.Namespace) -> None:
             "- Procesar capturas en notas Markdown tipadas y curadas en español.\n"
             "- Generar reportes de conexiones y briefs del proyecto.\n\n"
             "## Instancias\n"
-            "- `docs/` es la bóveda del proyecto actual desde la cual se instancia este skill.\n"
+            f"- `{vault}` es la bóveda contextual activa por defecto para este repo.\n"
+            f"- `{instance_path}` declara la instancia activa y sus bóvedas nombradas.\n"
             "- `.tmp/` es memoria de trabajo temporal del skill.\n"
-            "- El skill puede instanciarse como CLI cross, plugin, incepción o servidor futuro.\n\n"
+            "- El skill puede instanciarse como CLI cross, plugin o servidor futuro.\n\n"
             "## Referencias\n"
             "- `references/` es agnóstico por defecto.\n"
             "- Las instancias pueden ajustar plantillas de referencias según caso de uso.\n"
@@ -313,6 +358,21 @@ def command_init(args: argparse.Namespace) -> None:
             created.append(str(path))
         path.write_text(content, encoding="utf-8")
 
+    instance_payload = {
+        **DEFAULT_INSTANCE,
+        "skill_root": str(repo_dir),
+        "project_repo": str(repo_dir),
+        "vault_repo": str(vault),
+        "skill_tmp": str(repo_dir / ".tmp"),
+        "vaults": {
+            "active": "default",
+            "named": {"default": str(vault)},
+        },
+    }
+    instance_path.parent.mkdir(parents=True, exist_ok=True)
+    instance_path.write_text(json.dumps(instance_payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    created.append(str(instance_path)) if not instance_exists else updated.append(str(instance_path))
+
     emit(
         {
             "ok": True,
@@ -321,7 +381,7 @@ def command_init(args: argparse.Namespace) -> None:
             "created_files": created,
             "updated_files": updated,
             "warnings": warnings,
-            "summary": {"version": VERSION, "directories": len(REQUIRED_DIRS)},
+            "summary": {"version": VERSION, "directories": len(REQUIRED_DIRS), "instance": str(instance_path)},
         }
     )
 
@@ -329,29 +389,36 @@ def command_init(args: argparse.Namespace) -> None:
 def command_config(args: argparse.Namespace) -> None:
     vault = resolve_vault(args, "config")
     require_initialized("config", vault)
-    instance_path = vault / "05-NEURONA" / "instance.json"
+    instance_path = instance_path_for(vault)
     instance_exists = instance_path.exists()
-    if instance_exists:
-        current = json.loads(instance_path.read_text(encoding="utf-8"))
-    else:
-        current = {}
+    current = read_instance(vault)
 
     current_contexts = current.get("contexts", {})
     current_mode = current.get("mode", "project")
     current_skill_tmp = current.get("skill_tmp", ".tmp")
+    current_vaults = current.get("vaults", {"active": "default", "named": {}})
     contexts = {
         "user": [item for item in (args.user_context if args.user_context else current_contexts.get("user", [])) if item],
         "project": [item for item in (args.project_context if args.project_context else current_contexts.get("project", [])) if item],
         "skill": [item for item in (args.skill_context if args.skill_context else current_contexts.get("skill", [])) if item],
         "external": [item for item in (args.external_context if args.external_context else current_contexts.get("external", [])) if item],
     }
+    named_vaults = dict(current_vaults.get("named", {})) or {"default": str(vault)}
+    named_vaults.update({item.split("=", 1)[0]: item.split("=", 1)[1] for item in (args.vault_map or []) if "=" in item})
     payload = {
         "mode": args.mode or current_mode,
-        "project_vault": str(vault),
+        "skill_root": str(workspace_root_from_vault(vault)),
+        "project_repo": str(workspace_root_from_vault(vault)),
+        "vault_repo": str(vault),
         "skill_tmp": args.skill_tmp or current_skill_tmp,
         "contexts": contexts,
+        "vaults": {
+            "active": args.active_vault or current_vaults.get("active", "default"),
+            "named": named_vaults,
+        },
     }
     current.update(payload)
+    instance_path.parent.mkdir(parents=True, exist_ok=True)
     instance_path.write_text(json.dumps(current, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     emit(
         {
@@ -772,6 +839,8 @@ def build_parser() -> argparse.ArgumentParser:
         default="project",
     )
     config_parser.add_argument("--skill-tmp", default=".tmp")
+    config_parser.add_argument("--active-vault")
+    config_parser.add_argument("--vault-map", action="append", default=[], help="Map a named vault as NAME=PATH.")
     config_parser.add_argument("--user-context", action="append", default=[])
     config_parser.add_argument("--project-context", action="append", default=[])
     config_parser.add_argument("--skill-context", action="append", default=[])

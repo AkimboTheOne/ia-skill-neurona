@@ -18,6 +18,7 @@ aliases:
 ## Tesis
 
 Otro agente puede llegar a la misma conclusión si el skill y sus referencias dejan explícito el modo de lectura del proyecto, no sólo la forma de operar la bóveda.
+La documentación debe ser compacta lo suficiente como para entrar como caja negra: el agente no debería depender de esta conversación para entender la forma del sistema.
 
 La conclusión no depende de una memoria privada entre sesiones. Depende de que el contrato del skill y la documentación del proyecto hagan visible:
 
@@ -44,7 +45,7 @@ La conclusión surge al combinar tres capas del contrato actual:
    - `05-NEURONA` gobierna el modelo.
 
 3. **Uso del proyecto como instancia del skill**
-   - `docs/` es una instancia concreta de `$mem`.
+   - `docs/` es documentación concreta del producto.
    - Otros proyectos pueden instanciar el mismo contrato con contextos y semánticas distintas.
    - La forma se comparte; el significado se ajusta al proyecto.
 
@@ -52,22 +53,22 @@ La conclusión surge al combinar tres capas del contrato actual:
 
 Para que la conclusión sea replicable por otro agente, `SKILL.md` debería dejar más explícito:
 
-- que `docs/` es una instancia del skill, no el skill en sí;
+- que `docs/` es documentación del producto, no el skill en sí;
 - que el skill opera sobre proyectos con semánticas distintas;
 - que `05` es memoria operativa del proyecto, no bóveda paralela;
 - que `baseline` es fuente madre y materia prima;
 - que `references/` es soporte normativo y operativo;
 - que `references/` debe ser agnóstica por defecto y ajustable por plantilla según el caso de uso;
 - que una neurona es una unidad viva de la memoria del proyecto, no cualquier nota.
+- que la curaduría del proyecto busca reducir extensión sin perder procedencia ni criterio.
 
 ## Oportunidades de mejora para `references/`
 
-Las referencias deberían reforzar la reproducibilidad de la lectura:
+Las referencias deberían reforzar la reproducibilidad de la lectura sin repetir el contrato del skill:
 
-- `references/vault-structure.md` debe decir con claridad qué vive en cada capa;
-- `references/intelligence-workflows.md` debe dejar claro cómo distinguir borrador de conclusión;
-- `references/baseline-patterns.md` debe explicitar la relación entre fuente madre, corpus histórico y superficie operativa;
-- cualquier nueva referencia debería describir la red del proyecto y no sólo la utilidad de la CLI.
+- `references/vault-structure.md` describe qué vive en cada capa;
+- `references/intelligence-workflows.md` distingue borrador de conclusión;
+- `references/baseline-patterns.md` relaciona fuente madre, corpus histórico y superficie operativa.
 
 ## Criterio práctico
 
@@ -82,4 +83,4 @@ Si estas piezas están bien escritas, otro agente puede llegar a la misma conclu
 
 - [Neurona del Proyecto](neurona.md)
 - [Alcance de `references/` en el skill `$mem`](alcance-de-references-en-el-skill-mem.md)
-- [Fuente consolidada de `docs/baseline`](../01-CAPTURES/patterns/20260513-172100-baseline-source-consolidated.md)
+- [Fuente consolidada de la base histórica](20260513-172100-baseline-source-consolidated.md)

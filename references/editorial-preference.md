@@ -3,6 +3,7 @@
 ## Principio
 
 `$mem` escribe para que una persona pueda leer, decidir y navegar sin fricción, y para que una máquina pueda procesar la estructura sin ambigüedad.
+Cuando el significado sobreviva, comprime: menos palabras, menos repetición y más relación útil.
 
 ## Regla base
 
@@ -14,6 +15,7 @@
 - Evita jerga cuando no aporte precisión.
 - Mantén los términos técnicos donde ayudan a operar, no donde oscurecen la lectura.
 - Evita saltos de linea innecesarios.
+- Prefiere condensar la explicación cuando el enlace o la referencia ya sostienen el contexto.
 
 ## Superficies
 

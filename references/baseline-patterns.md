@@ -4,9 +4,9 @@ Usa esta referencia al extender el skill, cambiar la CLI o añadir integraciones
 
 ## Contexto
 
-Los documentos originales en `docs/baseline` quedaron absorbidos por la fuente consolidada en español. El directorio histórico puede prescindirse como superficie de trabajo; las capturas procesadas, conexiones, briefs y referencias operativas de `$mem` usan español como idioma de trabajo.
+Los documentos originales en `ia-skill-neurona/vault/baseline` quedaron absorbidos por la fuente consolidada en español. El directorio histórico puede prescindirse como superficie de trabajo; las capturas procesadas, conexiones, briefs y referencias operativas de `$mem` usan español como idioma de trabajo.
 
-`docs/` es la bóveda del proyecto actual, no el skill. El mismo contrato puede instanciarse en otros proyectos con contextos distintos. La forma se comparte; la semántica se resuelve por instancia.
+`ia-skill-neurona/vault/` es la bóveda del proyecto actual, no el skill. El mismo contrato puede instanciarse en otros proyectos con contextos distintos. La forma se comparte; la semántica se resuelve por instancia.
 
 `references/` debe actuar como doctrina base agnóstica. Las variaciones por caso de uso no cambian el contrato central: se expresan como plantillas de instancia o referencias operativas ajustadas para memoria temporal, memoria documental o memoria tipo “cerebro”.
 
@@ -47,7 +47,7 @@ Cuando una iteración alcance estabilidad, trata el versionamiento como una rien
 
 Profundiza sólo si necesitas rehacer el contrato de uso o la forma de instanciación:
 
-- [Neurona del Proyecto](../docs/05-NEURONA/neurona.md)
-- [Como otro agente llegaría a la misma conclusión](../docs/05-NEURONA/como-otro-agente-llegaria-a-la-misma-conclusion.md)
-- [docs/ como bóveda concreta de la instancia actual del skill](../docs/01-CAPTURES/observations/20260514-102952-idea-el-repositorio-docs-de-este-proyecto-es-una-insta.md)
-- [El skill puede instanciarse en otros proyectos](../docs/01-CAPTURES/observations/20260514-102952-idea-puede-instanciarse-en-otros-proyectos.md)
+- [Neurona del Proyecto](neurona.md)
+- [Como otro agente llegaría a la misma conclusión](como-otro-agente-llegaria-a-la-misma-conclusion.md)
+- [ia-skill-neurona/vault/ como bóveda concreta de la instancia actual del skill](20260514-102952-idea-el-repositorio-docs-de-este-proyecto-es-una-insta.md)
+- [El skill puede instanciarse en otros proyectos](20260514-102952-idea-puede-instanciarse-en-otros-proyectos.md)

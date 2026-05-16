@@ -8,6 +8,7 @@ description: Skill local de memoria en Markdown, referenciado históricamente co
 ## Overview
 
 `$mem` es el identificador de activación de este skill. Mantén `ia-skill-neurona` como nombre de referencia histórico y del repositorio cuando documentes rutas, manifiestos o notas de migración.
+La bóveda viva de una instancia vive en `ia-skill-neurona/vault/`; `references/` fija las riendas agnósticas y `05-NEURONA` concentra la doctrina compacta que deja al LLM operar con menos contexto implícito.
 
 `references/` debe operar en dos niveles:
 
@@ -16,13 +17,14 @@ description: Skill local de memoria en Markdown, referenciado históricamente co
 
 La doctrina de preferencia editorial vive en `references/` y se aplica también en `05-NEURONA`: lenguaje natural para superficies humanas, `snake_case` sólo donde la máquina lo necesita. Si una instancia necesita ajustar tono, densidad o formalidad, debe declararlo explícitamente.
 
-`docs/` es la bóveda viva de esta instancia del skill y debe vivir como descendiente explícito del repo, no como raíz activa. La raíz conserva contrato, manifiestos, scripts, referencias y superficies de implementación; no debe convertirse en bóveda por accidente.
+`ia-skill-neurona/vault/` es la bóveda viva de esta instancia del skill y debe vivir como descendiente explícito del repo, no como raíz activa. `docs/` queda fuera del alcance operativo del skill y se usa sólo como documentación del producto. La raíz conserva contrato, manifiestos, scripts, referencias y superficies de implementación; no debe convertirse en bóveda por accidente.
 
 `mem` no compite con una memoria nativa del agente como `Memories`: la complementa con una bóveda de proyecto explícita, archivos planos, trazabilidad y una política de instancia legible. Si ambos sistemas existen, la memoria nativa del agente gobierna el contexto general de la conversación y `mem` gobierna la memoria operativa del proyecto.
 
 Usa este skill para operar una bóveda local de memoria en Markdown a través de tres capas: capturar entradas crudas, guardarlas en una estructura estable de carpetas y apoyar el trabajo de síntesis sobre las notas almacenadas.
 
-`docs/` es la bóveda concreta del proyecto actual desde la cual se instancia este skill. El mismo contrato puede instanciarse en otros proyectos con contexto y semántica propios. La forma se comparte; el significado se resuelve por proyecto.
+`ia-skill-neurona/vault/` es la bóveda concreta del proyecto actual desde la cual se instancia este skill. `docs/` no forma parte de la memoria operativa del skill. El mismo contrato puede instanciarse en otros proyectos con contexto y semántica propios. La forma se comparte; el significado se resuelve por proyecto.
+Si el skill se usa sobre sí mismo, la meta no es repetir más documentación sino curarla: conservar evidencia, acortar la superficie y mejorar el relacionamiento para que otro LLM pueda entrar con menos fricción.
 
 Si necesitas profundizar en esa distinción sin cargar el contrato principal, revisa `references/` y el apéndice de "Leer Más" allí vinculado. La regla es que el agente o usuario que instala el skill tome las plantillas como punto de partida, y que el agente/LLM que usa el skill proponga ajustes a las referencias de la instancia cuando el caso de uso lo requiera.
 
@@ -49,7 +51,7 @@ scripts/neurona.sh status --vault /path/to/vault
 bash scripts/mini-suite.sh
 ```
 
-`init-repo-vault.sh` inicializa la bóveda descendiente del repositorio actual, por defecto `docs/`, y emite
+`init-repo-vault.sh` inicializa la bóveda descendiente del repositorio actual, por defecto `ia-skill-neurona/vault/`, y emite
 exportaciones temporales `NEURONA_VAULT` y `NEURONA_SKILL_DIR`. Después de evaluarlo, los comandos CLI pueden
 omitir `--vault`.
 
@@ -57,8 +59,9 @@ La resolución de contexto sigue esta regla:
 
 1. memoria del usuario;
 2. memoria temporal del skill en `.tmp/`;
-3. bóveda del proyecto en `docs/` o en la bóveda descendiente declarada por la instancia;
-4. contextos externos conectados explícitamente.
+3. bóveda del proyecto en `ia-skill-neurona/vault/` o en la bóveda descendiente declarada por la instancia;
+4. documentación del producto en `docs/`, sólo como referencia de lectura;
+5. contextos externos conectados explícitamente.
 
 No fusiones esas capas por defecto. Si la instancia necesita otra bóveda, debe declararlo y validarlo de forma explícita.
 
@@ -70,7 +73,7 @@ No fusiones esas capas por defecto. Si la instancia necesita otra bóveda, debe 
 
 Todos los comandos devuelven JSON por stdout y errores por stderr. Trata stdout como el contrato legible por máquinas.
 
-`init` valida o crea la bóveda del proyecto. `config` declara la instancia activa, la memoria temporal del skill y los contextos conectados. Si no se indica otra cosa, el skill asume la bóveda del proyecto actual y una memoria de trabajo separada en `.tmp/`.
+`init` valida o crea la bóveda del proyecto. `config` declara la instancia activa, la memoria temporal del skill y los contextos conectados. Si no se indica otra cosa, el skill asume la bóveda del proyecto actual en `ia-skill-neurona/vault/` y una memoria de trabajo separada en `.tmp/`.
 
 `ask` es parte del MVP: consulta la bóveda por etapas con coincidencia heurística y devuelve JSON con coincidencias, score y preview. No reemplaza el juicio del LLM; lo alimenta.
 
@@ -84,16 +87,17 @@ Cuando cambie la guía del agente o el setup, vuelve a cargar el contexto o rein
 
 El repositorio todavía puede ser referenciado como `ia-skill-neurona` en rutas y notas de migración.
 
-Si el skill se usa sobre sí mismo, trátalo como `inception`: la doctrina y los manifiestos viven aquí, la CLI sigue siendo la implementación y no debe reinterpretar el contrato central.
+Si el skill se usa sobre sí mismo, trátalo como una instancia de trabajo: la doctrina vive en `docs/`, la CLI sigue siendo la implementación y no debe reinterpretar el contrato central.
 
 ## Flujo
 
-1. Detecta la ruta de la bóveda desde `--vault`, luego `NEURONA_VAULT`, luego la solicitud del usuario. Si falta, pídela o usa el directorio actual sólo cuando ya contenga `00-INBOX` y `05-NEURONA`.
+1. Detecta la ruta de la bóveda desde `--vault`, luego `NEURONA_VAULT`, luego la solicitud del usuario. Si falta, usa `ia-skill-neurona/vault/` bajo el repo actual como punto de trabajo local contextualizado.
 2. Ejecuta `status` antes de asumir cosas sobre la bóveda.
 3. Para bóvedas nuevas, ejecuta primero `init`. Crea la estructura de carpetas y los manifiestos estáticos.
 4. Para entradas crudas, ejecuta `capture`. Conserva el texto original intacto.
 5. Para mantenimiento del inbox, ejecuta `process-inbox`, luego usa juicio del LLM para revisar clasificaciones débiles, frases afinadas, etiquetas o ubicación de notas.
 6. Para trabajo de inteligencia, ejecuta `connect`, `ask` o `brief` sólo como andamiaje, luego usa razonamiento del LLM para desarrollar insight real, evidencia, contradicciones y prosa.
+   Si la red ya deja ver una idea estable, condénsala antes de elevarla: la madurez del skill se prueba cuando el contexto se vuelve más corto sin perder señal.
 
 ## Instancias Del Skill
 
@@ -101,7 +105,7 @@ Si el skill se usa sobre sí mismo, trátalo como `inception`: la doctrina y los
 
 - **CLI cross del agente**: el skill actúa como herramienta compartida para operar una bóveda concreta.
 - **Plugin en otro repositorio**: el skill se instala como capa de memoria de un proyecto distinto.
-- **Incepción en su propio proyecto**: el skill se usa para reformarse a sí mismo y endurecer su modelo.
+- **Instancia de trabajo sobre su propio proyecto**: el skill se usa para revisar y endurecer su modelo sin tratar la bóveda viva como contrato central.
 - **Futuro CLI/MCP server**: el skill expone capacidades complementarias a otro skill o agente.
 
 Cada instancia debe declarar qué contexto usa, qué bóveda gobierna, dónde reside su memoria de trabajo y qué plantilla de referencias adopta. No debe heredar semántica ajena por defecto. La personalización de la instancia vive en sus referencias operativas, no en el contrato central.
@@ -120,7 +124,7 @@ Cuando el skill opere con varias memorias al mismo tiempo, resuelve en este orde
 
 1. memoria del usuario;
 2. memoria de trabajo temporal del skill (`.tmp/`);
-3. memoria del proyecto (`docs/` o la bóveda instanciada);
+3. memoria del proyecto (`ia-skill-neurona/vault/` o la bóveda instanciada);
 4. memorias conectadas externas.
 
 No fusiones esos contextos por defecto. Si una fuente no está identificada, trátala como local y conservadora hasta que el LLM decida lo contrario.
@@ -157,7 +161,7 @@ El LLM debe decidir:
 
 ## Modelo De Memoria Del Proyecto
 
-`$mem` no es una bóveda paralela ni un archivo total del conocimiento. Es la memoria operativa del proyecto.
+`$mem` no es una bóveda paralela ni un archivo total del conocimiento. Es la memoria operativa del proyecto y, cuando se usa sobre sí mismo, también una prueba de caja negra: recibe contexto, lo cura y devuelve una red más clara.
 
 La unidad viva de esa memoria es la neurona: una nota u objeto de conocimiento con propósito claro, propiedades mínimas, trazabilidad y capacidad de conectarse con otras neuronas sin perder su origen.
 

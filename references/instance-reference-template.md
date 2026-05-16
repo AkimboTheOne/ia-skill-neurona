@@ -4,18 +4,17 @@ Usa esta plantilla cuando una instancia de `$mem` necesite ajustar `references/`
 
 ## Propósito
 
-Definir cómo la instancia interpreta el skill según su caso de uso, manteniendo la forma modular y las riendas estructurales.
-
-La instancia debe poder decir dónde está montada, cómo se repara o valida su composición local y qué superficie debe recargar el agente cuando cambian las guías.
+Definir cómo la instancia interpreta el skill según su caso de uso, manteniendo la forma modular y las riendas estructurales. La instancia debe poder decir dónde está montada, cómo se repara o valida su composición local y qué superficie debe recargar el agente cuando cambian las guías.
 
 ## Campos a vigilar
 
 - `type` de memoria esperada.
 - grado de personalización permitido.
 - límites de contexto conectados.
-- criterios de curaduría.
-- señales de compatibilidad con la bóveda viva.
-- señales de pendiente o madurez (`status`, `tags`, `aliases`) sin mover la nota fuera de `docs/00-INBOX/`.
+- criterios de curaduría y compatibilidad con la bóveda viva.
+- señales de pendiente o madurez (`status`, `tags`, `aliases`) sin mover la nota fuera de `ia-skill-neurona/vault/00-INBOX/`.
+- objetivo de curaduría para la instancia: qué se compacta, qué se preserva y qué se deriva a salidas más legibles para humanos.
+- criterios para operar como caja negra sin perder procedencia ni trazabilidad.
 
 ## Casos de uso compatibles
 

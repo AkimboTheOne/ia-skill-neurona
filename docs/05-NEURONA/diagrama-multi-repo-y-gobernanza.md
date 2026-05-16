@@ -32,7 +32,7 @@ flowchart TD
     A --> TMP[skill_tmp]
 
     PRJ --> X[Contexto operativo]
-    VAULT --> Y[docs/ como bóveda viva]
+    VAULT --> Y[docs/ como documentación del producto]
     TMP --> T[Mapas y trabajo temporal]
 
     X --> LLM[LLM / agente]
@@ -47,7 +47,7 @@ flowchart TD
 
 - El skill cross aporta contrato y herramientas.
 - La instancia declara repo de trabajo, bóveda y memoria temporal.
-- `docs/` es la bóveda viva descendiente por defecto.
+- `docs/` es documentación del producto.
 - La raíz del repo no es una bóveda válida.
 
 ## Relacionado

@@ -10,7 +10,7 @@ else
   REPO_DIR="$SKILL_DIR"
 fi
 
-VAULT_DIR="${1:-$REPO_DIR/.tmp/vault}"
+VAULT_DIR="${1:-$REPO_DIR/ia-skill-neurona/vault}"
 VAULT_DIR="$(mkdir -p "$VAULT_DIR" && cd "$VAULT_DIR" && pwd)"
 
 "$SCRIPT_DIR/neurona.sh" init --vault "$VAULT_DIR" >/dev/null

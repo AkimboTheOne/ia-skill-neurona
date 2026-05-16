@@ -183,8 +183,17 @@ elif [ -e "$PLUGIN_PATH" ]; then
     PLUGIN_STATUS="conflict"
   fi
 else
-  ln -s "$REPO_DIR" "$PLUGIN_PATH"
-  PLUGIN_STATUS="created"
+  if ln -s "$REPO_DIR" "$PLUGIN_PATH" 2>/dev/null; then
+    PLUGIN_STATUS="created"
+  else
+    if mkdir -p "$PLUGIN_PATH" 2>/dev/null; then
+      cp -R "$REPO_DIR/"* "$PLUGIN_PATH/" 2>/dev/null || true
+      cp -R "$REPO_DIR/.[!.]*" "$PLUGIN_PATH/" 2>/dev/null || true
+      PLUGIN_STATUS="copied"
+    else
+      PLUGIN_STATUS="unavailable"
+    fi
+  fi
 fi
 
 for surface in "${SURFACES[@]}"; do

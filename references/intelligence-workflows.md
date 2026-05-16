@@ -4,14 +4,12 @@ Usa esta referencia al producir conexiones, briefs o síntesis desde una bóveda
 
 ## Frontera de responsabilidad
 
-El skill pone riendas: restringe estructura y movimiento, pero no decide significado.
-Los scripts no son la capa de inteligencia generativa. Proveen operaciones deterministas sobre archivos, heurísticas simples de clasificación y andamiajes de borrador. El LLM que usa el skill debe leer las notas fuente y decidir contenido, creación, modificación, vinculación, selección de contexto, inferencia, síntesis, detección de contradicciones, desarrollo de briefs y prosa final.
-
-Trata las salidas de `connect` y `brief` como puntos de partida, no como conclusiones autoritarias.
+El skill pone riendas: restringe estructura y movimiento, pero no decide significado. Los scripts sólo proveen operaciones deterministas, heurísticas simples y andamiajes de borrador; el LLM decide contenido, vínculo, síntesis y prosa final.
+Trata las salidas de `connect` y `brief` como puntos de partida, no como conclusiones autoritarias. La curaduría compacta la red sin perder evidencia.
 
 ## Instancias y contextos
 
-`$mem` puede instanciarse como CLI cruzado, plugin de otro proyecto, incepción sobre su propio proyecto o servicio futuro. Cada instancia declara una bóveda activa, una memoria temporal de trabajo y uno o más contextos conectados.
+`$mem` puede instanciarse como CLI cruzado, plugin de otro proyecto, instancia de trabajo sobre su propio proyecto o servicio futuro. Cada instancia declara una bóveda activa, una memoria temporal de trabajo y uno o más contextos conectados.
 
 No fusionar memorias por defecto. Si la fuente no se identifica con claridad, el LLM debe tratarla como contexto local y decidir su valor explícitamente.
 
@@ -38,12 +36,11 @@ instancia pueda declararse sin ambigüedad:
 
 - `skill_root`: repositorio del skill.
 - `project_repo`: repo donde el agente está trabajando.
-- `vault_repo`: bóveda activa descendiente, por defecto `docs/`.
+- `vault_repo`: bóveda activa descendiente, por defecto `ia-skill-neurona/vault/`.
 - `skill_tmp`: memoria temporal fuera de la red viva.
 - `context`: fuente conectada explícitamente.
 
-No fusionar contextos por defecto. Si una fuente no está identificada, trátala como local hasta que el LLM decida
-su valor y su frontera de escritura.
+No fusionar contextos por defecto. Si una fuente no está identificada, trátala como local hasta que el LLM decida su valor y su frontera de escritura.
 
 `ask` queda como contrato futuro de recuperación guiada. En esta iteración sólo se documenta la intención y la
 separación de responsabilidades entre consulta, navegación y síntesis.
@@ -104,6 +101,7 @@ Qué entiende el lector después de leer.
 ```
 
 Si la prueba es débil, dilo directamente y nombra la evidencia faltante.
+El brief no compite con la red: la comprime para que otro agente pueda entender el criterio sin rehacer el recorrido completo.
 
 ## Madurez de neurona
 
@@ -120,7 +118,7 @@ Si sólo ayuda a pensar, permanece en `01`, `02` o `03`.
 
 Cuando el contexto te obligue a distinguir entre memoria del proyecto, memoria temporal del skill e instancias múltiples, profundiza en:
 
-- [Neurona del Proyecto](../docs/05-NEURONA/neurona.md)
-- [Alcance de `references/` en el skill `$mem`](../docs/05-NEURONA/alcance-de-references-en-el-skill-mem.md)
-- [docs/ es la bóveda concreta de la instancia actual del skill](../docs/01-CAPTURES/observations/20260514-102952-idea-el-repositorio-docs-de-este-proyecto-es-una-insta.md)
-- [El skill puede instanciarse en otros proyectos](../docs/01-CAPTURES/observations/20260514-102952-idea-puede-instanciarse-en-otros-proyectos.md)
+- [Neurona del Proyecto](neurona.md)
+- [Alcance de `references/` en el skill `$mem`](alcance-de-references-en-el-skill-mem.md)
+- [ia-skill-neurona/vault/ es la bóveda concreta de la instancia actual del skill](20260514-102952-idea-el-repositorio-docs-de-este-proyecto-es-una-insta.md)
+- [El skill puede instanciarse en otros proyectos](20260514-102952-idea-puede-instanciarse-en-otros-proyectos.md)
