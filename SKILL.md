@@ -41,6 +41,9 @@ eval "$(scripts/init-repo-vault.sh)"
 eval "$(scripts/init-test-vault.sh)"
 scripts/neurona.sh init --vault /path/to/vault
 scripts/neurona.sh capture --vault /path/to/vault --text "raw idea or observation"
+scripts/neurona.sh conversation capture --vault /path/to/vault --text "raw conversation text"
+scripts/neurona.sh templates list --vault /path/to/vault
+scripts/neurona.sh templates show --vault /path/to/vault --phase conversation
 scripts/neurona.sh process-inbox --vault /path/to/vault
 scripts/neurona.sh connect --vault /path/to/vault --days 7
 scripts/neurona.sh brief --vault /path/to/vault --topic "topic name"
@@ -73,6 +76,8 @@ Todos los comandos devuelven JSON por stdout y errores por stderr. Trata stdout 
 `init` valida o crea la bóveda del proyecto. `config` declara la instancia activa, la memoria temporal del skill y los contextos conectados. Si no se indica otra cosa, el skill asume la bóveda del proyecto actual y una memoria de trabajo separada en `.tmp/`.
 
 `ask` es parte del MVP: consulta la bóveda por etapas con coincidencia heurística y devuelve JSON con coincidencias, score y preview. No reemplaza el juicio del LLM; lo alimenta.
+`templates` expone andamios operativos por fase para que el agente use la bóveda con el loop `preparar -> operar -> cerrar`.
+`conversation` consolida una sesión de trabajo en una nota trazable en `01-CAPTURES/observations` y usa `conversation_id` para updates deterministas. El texto de entrada debe ser una síntesis densa preparada por el agente, no un resumen escueto ni necesariamente el chat completo.
 
 ## Instalación Local
 
@@ -91,9 +96,12 @@ Si el skill se usa sobre sí mismo, trátalo como `inception`: la doctrina y los
 1. Detecta la ruta de la bóveda desde `--vault`, luego `NEURONA_VAULT`, luego la solicitud del usuario. Si falta, pídela o usa el directorio actual sólo cuando ya contenga `00-INBOX` y `05-NEURONA`.
 2. Ejecuta `status` antes de asumir cosas sobre la bóveda.
 3. Para bóvedas nuevas, ejecuta primero `init`. Crea la estructura de carpetas y los manifiestos estáticos.
-4. Para entradas crudas, ejecuta `capture`. Conserva el texto original intacto.
-5. Para mantenimiento del inbox, ejecuta `process-inbox`, luego usa juicio del LLM para revisar clasificaciones débiles, frases afinadas, etiquetas o ubicación de notas.
-6. Para trabajo de inteligencia, ejecuta `connect`, `ask` o `brief` sólo como andamiaje, luego usa razonamiento del LLM para desarrollar insight real, evidencia, contradicciones y prosa.
+4. Antes de operar una fase, consulta `templates show --phase <fase>` y declara frontera de escritura, contexto recuperado y handoff esperado.
+5. Para entradas crudas, ejecuta `capture`. Conserva el texto original intacto.
+6. Para conversaciones, prepara una síntesis densa con contexto, decisiones, evidencia, relaciones, pendientes, próximos pasos, riesgos y transcripción relevante antes de ejecutar `conversation`.
+7. Para mantenimiento del inbox, ejecuta `process-inbox`, luego usa juicio del LLM para revisar clasificaciones débiles, frases afinadas, etiquetas o ubicación de notas.
+8. Para trabajo de inteligencia, ejecuta `connect`, `ask` o `brief` sólo como andamiaje, luego usa razonamiento del LLM para desarrollar insight real, evidencia, contradicciones y prosa.
+9. Al cerrar, usa la fase `close` para dejar resultado, relaciones, pendientes y criterio de elevación.
 
 ## Instancias Del Skill
 
@@ -154,6 +162,16 @@ El LLM debe decidir:
 - Qué notas fuente importan para el contexto actual.
 - Si una clasificación, etiqueta, conexión o brief generado por la CLI es realmente útil.
 - Cómo preservar significado, evidencia, intención del usuario y calidad final de la prosa.
+
+## Loop Operativo
+
+El loop mínimo para operar `$mem` es `preparar -> operar -> cerrar`.
+
+En `preparar`, el agente recupera contexto con `status`, `ask` o lectura directa y solicita la plantilla de fase.
+En `operar`, el agente usa la plantilla como andamio y mantiene el control del significado.
+En `cerrar`, el agente deja handoff explícito: resultado, evidencia, relaciones, pendientes, próxima acción y criterio de elevación.
+
+Los índices y relaciones son componentes estrictos del handoff. Una nota sin `conversation_id`, fuentes, relaciones sugeridas o pendientes claros puede ser válida como Markdown, pero no como memoria operativa robusta.
 
 ## Modelo De Memoria Del Proyecto
 

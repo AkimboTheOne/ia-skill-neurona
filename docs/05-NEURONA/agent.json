@@ -20,6 +20,14 @@
       "name": "capture"
     },
     {
+      "description": "Capturar, actualizar o sincronizar una conversación consolidada.",
+      "name": "conversation"
+    },
+    {
+      "description": "Listar o mostrar plantillas operativas por fase.",
+      "name": "templates"
+    },
+    {
       "description": "Clasificar notas del inbox en 01-CAPTURES con curaduría en español.",
       "name": "process-inbox"
     },
@@ -88,6 +96,14 @@
   },
   "reference_model": {
     "default": "agnostic",
+    "operational_phases": [
+      "prepare",
+      "capture",
+      "conversation",
+      "connect",
+      "brief",
+      "close"
+    ],
     "templates": [
       "memory-temporal-work",
       "documentary-memory",
@@ -107,5 +123,5 @@
     "03-BRIEFS",
     "05-NEURONA"
   ],
-  "version": "0.1.1"
+  "version": "0.2.0"
 }
