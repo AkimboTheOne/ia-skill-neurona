@@ -3,7 +3,7 @@ title: mem
 project: ia-skill-neurona
 description: Módulo de memoria operativa instanciable en Markdown para capturar, curar, conectar y sintetizar conocimiento de proyecto.
 status: active
-version: 0.2.0
+version: 0.2.1
 tags:
   - mem
   - skill
@@ -16,7 +16,7 @@ tags:
 
 # `$mem` / `ia-skill-neurona`
 
-[![Version](https://img.shields.io/badge/version-0.2.0-blue.svg)](.)
+[![Version](https://img.shields.io/badge/version-0.2.1-blue.svg)](.)
 [![Status](https://img.shields.io/badge/status-active-green.svg)](.)
 [![License](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)](LICENSE)
 [![Docs](neurona.md)

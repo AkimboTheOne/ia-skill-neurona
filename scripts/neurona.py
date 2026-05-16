@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 
 CAPTURE_TYPES = ("observations", "reactions", "patterns", "questions", "numbers")
 SKILL_SPACE_DIRNAME = "ia-skill-neurona"
