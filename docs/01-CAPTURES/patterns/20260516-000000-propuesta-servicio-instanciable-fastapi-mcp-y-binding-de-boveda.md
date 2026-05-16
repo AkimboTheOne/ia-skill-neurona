@@ -1,22 +1,26 @@
 ---
 created: 2026-05-16T00:00:00-05:00
-type: inbox
-status: raw
-source: manual
+type: patterns
+status: processed
+source: inbox
+source_file: docs/00-INBOX/20260516-000000-propuesta-servicio-instanciable-fastapi-mcp-y-binding-de-boveda.md
 tags:
-  - capture
-  - inbox
   - mem
   - fastapi
   - mcp
   - service
+  - instancing
 aliases:
-  - "Capture: Propuesta de servicio instanciable FastAPI/MCP y binding de bóveda"
+  - "Patrón: servicio instanciable FastAPI/MCP y binding de bóveda"
 ---
 
-# Capture: Propuesta de servicio instanciable FastAPI/MCP y binding de bóveda
+# Patrón: servicio instanciable FastAPI/MCP y binding de bóveda
 
-## Raw
+## Afinado
+
+El servicio `$mem` debe poder levantarse como una instancia local o permanente con una bóveda declarada explícitamente, primero como FastAPI y después como MCP sobre la misma base.
+
+## Captura cruda
 
 El skill `$mem` debe poder instanciar una bóveda como servicio local o permanente, y ese servicio puede exponerse primero como FastAPI y luego como MCP. La decisión de si el servicio vive como API, como MCP o como ambos debe quedar en manos del LLM que opera el skill, porque el skill provee las riendas y el agente manda sobre la arquitectura concreta de la instancia.
 

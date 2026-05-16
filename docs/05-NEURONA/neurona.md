@@ -39,6 +39,9 @@ La resolución de contexto debe ser explícita:
 - memoria del proyecto (`docs/` o la bóveda instanciada);
 - contextos conectados externos.
 
+La bóveda activa debe ser un descendiente explícito del repo. La raíz del repositorio no es memoria viva y no debe
+usarse como superficie de almacenamiento del proyecto por accidente.
+
 No fusionar esos contextos por defecto. Si una fuente no está identificada, tratarla como local y conservadora hasta que el LLM decida lo contrario.
 
 ## Referencias agnósticas y plantillas
@@ -53,6 +56,14 @@ El agente o usuario que instala el skill debe tomar esas plantillas como punto d
 - o cualquier otro ajuste que preserve la maniobrabilidad sin romper el contrato central.
 
 La personalización pertenece a la instancia, no al núcleo del skill.
+
+Vocabulario mínimo para esta etapa:
+
+- `skill_root`: repositorio del skill.
+- `project_repo`: repo de trabajo del agente.
+- `vault_repo`: bóveda viva descendiente, normalmente `docs/`.
+- `skill_tmp`: memoria temporal del skill, normalmente `.tmp/`.
+- `context`: fuente conectada explícitamente.
 
 ## Relación con `baseline`
 
@@ -122,6 +133,8 @@ El LLM decide su contenido, su valor y sus vínculos.
 `scripts/setup-repo-for-agents.sh` materializa la composición local del repo para agentes de codificación IA y escribe su estado en `.tmp/agents-setup-state.json`.
 `scripts/agents-healthcheck.sh` valida esa composición local y devuelve si la sesión debe recargarse.
 Cuando esta instancia opera sobre sí misma, la doctrina vive aquí y la CLI ejecuta la implementación sin reinterpretar el contrato.
+
+`ask` es parte del MVP: consulta la bóveda por etapas con coincidencia heurística y devuelve JSON con coincidencias, score y preview. No reemplaza el juicio del LLM; lo alimenta.
 
 ## Relacionado
 

@@ -16,6 +16,8 @@ description: Skill local de memoria en Markdown, referenciado históricamente co
 
 La doctrina de preferencia editorial vive en `references/` y se aplica también en `05-NEURONA`: lenguaje natural para superficies humanas, `snake_case` sólo donde la máquina lo necesita. Si una instancia necesita ajustar tono, densidad o formalidad, debe declararlo explícitamente.
 
+`docs/` es la bóveda viva de esta instancia del skill y debe vivir como descendiente explícito del repo, no como raíz activa. La raíz conserva contrato, manifiestos, scripts, referencias y superficies de implementación; no debe convertirse en bóveda por accidente.
+
 `mem` no compite con una memoria nativa del agente como `Memories`: la complementa con una bóveda de proyecto explícita, archivos planos, trazabilidad y una política de instancia legible. Si ambos sistemas existen, la memoria nativa del agente gobierna el contexto general de la conversación y `mem` gobierna la memoria operativa del proyecto.
 
 Usa este skill para operar una bóveda local de memoria en Markdown a través de tres capas: capturar entradas crudas, guardarlas en una estructura estable de carpetas y apoyar el trabajo de síntesis sobre las notas almacenadas.
@@ -42,6 +44,7 @@ scripts/neurona.sh capture --vault /path/to/vault --text "raw idea or observatio
 scripts/neurona.sh process-inbox --vault /path/to/vault
 scripts/neurona.sh connect --vault /path/to/vault --days 7
 scripts/neurona.sh brief --vault /path/to/vault --topic "topic name"
+scripts/neurona.sh ask --vault /path/to/vault --query "topic"
 scripts/neurona.sh status --vault /path/to/vault
 bash scripts/mini-suite.sh
 ```
@@ -50,15 +53,26 @@ bash scripts/mini-suite.sh
 exportaciones temporales `NEURONA_VAULT` y `NEURONA_SKILL_DIR`. Después de evaluarlo, los comandos CLI pueden
 omitir `--vault`.
 
+La resolución de contexto sigue esta regla:
+
+1. memoria del usuario;
+2. memoria temporal del skill en `.tmp/`;
+3. bóveda del proyecto en `docs/` o en la bóveda descendiente declarada por la instancia;
+4. contextos externos conectados explícitamente.
+
+No fusiones esas capas por defecto. Si la instancia necesita otra bóveda, debe declararlo y validarlo de forma explícita.
+
 `init-test-vault.sh` inicializa una bóveda de prueba ignorada y local al repositorio en `.tmp/vault` por defecto.
 Úsalo para pruebas portables en lugar de carpetas temporales específicas del host.
 
 `scripts/mini-suite.sh` ejecuta un smoke test funcional completo sobre una bóveda temporal y valida el flujo
-`init -> status -> capture -> process-inbox -> connect -> brief`.
+`init -> status -> capture -> process-inbox -> connect -> ask -> brief`.
 
 Todos los comandos devuelven JSON por stdout y errores por stderr. Trata stdout como el contrato legible por máquinas.
 
 `init` valida o crea la bóveda del proyecto. `config` declara la instancia activa, la memoria temporal del skill y los contextos conectados. Si no se indica otra cosa, el skill asume la bóveda del proyecto actual y una memoria de trabajo separada en `.tmp/`.
+
+`ask` es parte del MVP: consulta la bóveda por etapas con coincidencia heurística y devuelve JSON con coincidencias, score y preview. No reemplaza el juicio del LLM; lo alimenta.
 
 ## Instalación Local
 
@@ -79,7 +93,7 @@ Si el skill se usa sobre sí mismo, trátalo como `inception`: la doctrina y los
 3. Para bóvedas nuevas, ejecuta primero `init`. Crea la estructura de carpetas y los manifiestos estáticos.
 4. Para entradas crudas, ejecuta `capture`. Conserva el texto original intacto.
 5. Para mantenimiento del inbox, ejecuta `process-inbox`, luego usa juicio del LLM para revisar clasificaciones débiles, frases afinadas, etiquetas o ubicación de notas.
-6. Para trabajo de inteligencia, ejecuta `connect` o `brief` sólo como andamiaje, luego usa razonamiento del LLM para desarrollar insight real, evidencia, contradicciones y prosa.
+6. Para trabajo de inteligencia, ejecuta `connect`, `ask` o `brief` sólo como andamiaje, luego usa razonamiento del LLM para desarrollar insight real, evidencia, contradicciones y prosa.
 
 ## Instancias Del Skill
 

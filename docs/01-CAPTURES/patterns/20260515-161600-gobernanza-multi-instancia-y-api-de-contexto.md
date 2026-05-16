@@ -1,22 +1,26 @@
 ---
-created: 2026-05-15T15:35:00-05:00
-type: inbox
-status: raw
-source: manual
+created: 2026-05-15T16:16:00-05:00
+type: patterns
+status: processed
+source: inbox
+source_file: docs/03-BRIEFS/20260515-160000-mini-proyecto-gobernanza-multi-instancia-y-boveda-descendiente.md
 tags:
+  - pattern
   - capture
-  - inbox
   - mem
   - governance
   - multi-instance
-  - mcp
 aliases:
-  - "Capture: Propuesta de gobernanza multi-instancia y API de contexto"
+  - Gobernanza multi-instancia y API de contexto
 ---
 
-# Capture: Propuesta de gobernanza multi-instancia y API de contexto
+# Gobernanza multi-instancia y API de contexto
 
-## Raw
+## Sharpened
+
+`$mem` debe gobernar múltiples instancias y contextos explícitos sin fusionarlos por defecto, dejando `ask` como contrato futuro de recuperación guiada.
+
+## Raw Capture
 
 El siguiente paso de `$mem` no debería ser sólo endurecer setup o limpiar la raíz del repo. La iteración siguiente ya apunta a una gobernanza multi-instancia: un proyecto de memoria puro deja de ser sólo una bóveda local y pasa a ser una fuente de contexto, utilizable como módulo, API o servicio MCP para otros agentes o repositorios.
 

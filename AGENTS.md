@@ -36,8 +36,9 @@ Este archivo orienta sesiones nuevas para que un agente pueda:
 2. `SKILL.md` para entender el contrato del skill.
 3. `docs/05-NEURONA/neurona.md` para entender el modelo del proyecto.
 4. `docs/05-NEURONA/indice-de-ayuda-operativa-para-agentes-llm.md` para entender el flujo operativo.
-5. `references/vault-structure.md` y `references/intelligence-workflows.md` para entender la bóveda y la síntesis.
-6. `references/editorial-preference.md` para mantener la voz editorial.
+5. `docs/05-NEURONA/modelo-de-instanciacion-del-skill.md` para entender cómo se declara la instancia activa.
+6. `references/vault-structure.md` y `references/intelligence-workflows.md` para entender la bóveda y la síntesis.
+7. `references/editorial-preference.md` para mantener la voz editorial.
 
 ## Cómo navegar la red documental
 
@@ -53,6 +54,7 @@ Este archivo orienta sesiones nuevas para que un agente pueda:
 - No reescribas `docs/baseline/` salvo que el usuario lo pida explícitamente.
 - Prefiere ajustes de forma sobre reingeniería cuando el objetivo sea editorial.
 - No introduzcas instrucciones que compitan con `SKILL.md`; este archivo guía el trabajo en el repo, no reemplaza el contrato del skill.
+- La raíz del repo no debe convertirse en bóveda activa; si una guía o setup sugiere eso, corrígelo antes de seguir.
 - Conserva el idioma y la convención editorial del proyecto: títulos en formato de frase, con mayúscula inicial sólo donde aporte precisión.
 - Las ideas pendientes viven en `docs/00-INBOX/` y se declaran con metadata; no las muevas a una carpeta separada salvo que la instancia lo exija explícitamente.
 

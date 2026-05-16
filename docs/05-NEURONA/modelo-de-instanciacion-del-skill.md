@@ -33,6 +33,7 @@ Una instancia local bien formada debe tener, como mínimo:
 - `scripts/setup-repo-for-agents.sh` como materializador de la composición local;
 - `scripts/agents-healthcheck.sh` como verificador del último estado;
 - `.tmp/agents-setup-state.json` como registro del setup más reciente;
+- `docs/` como bóveda viva descendiente por defecto del repo;
 - una superficie de compatibilidad para herramientas del ecosistema cuando haga falta.
 
 ## Regla
@@ -54,6 +55,8 @@ La instancia es válida cuando:
 ## Relación Con `docs/` Y `references/`
 
 `docs/` sigue siendo la bóveda del proyecto y `references/` sigue siendo el soporte agnóstico. Este modelo sólo aclara cómo se monta la instancia local para que un agente nuevo pueda orientar la sesión sin adivinar la presencia de archivos, symlinks o copias.
+
+`skill_root`, `project_repo`, `vault_repo` y `skill_tmp` son el vocabulario mínimo de esta etapa. La instancia debe declararlos de forma explícita, aunque la implementación conserve compatibilidad con el nombre histórico `docs/`.
 
 Cuando la instancia se expone como servicio durante un spike, la implementación puede vivir en `plugins/` y declarar explícitamente la bóveda consumida. La primera fachada puede ser FastAPI; MCP es una evolución posterior sobre la misma base. La regla operacional sigue siendo una: una instancia, una bóveda, un contrato.
 

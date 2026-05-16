@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.1.1"
+VERSION = "0.1.2"
 
 CAPTURE_TYPES = ("observations", "reactions", "patterns", "questions", "numbers")
 REQUIRED_DIRS = (
@@ -31,7 +31,7 @@ REQUIRED_DIRS = (
 DEFAULT_INSTANCE = {
     "mode": "project",
     "project_vault": "",
-    "skill_tmp": ".tmp/vault",
+    "skill_tmp": ".tmp",
     "contexts": {
         "user": [],
         "project": [],
@@ -219,6 +219,7 @@ def command_init(args: argparse.Namespace) -> None:
             {"name": "process-inbox", "description": "Classify inbox notes into 01-CAPTURES."},
             {"name": "connect", "description": "Generate a heuristic connection report."},
             {"name": "brief", "description": "Generate a five-field brief for a topic."},
+            {"name": "ask", "description": "Query the vault across stages with heuristic matching."},
             {"name": "status", "description": "Report vault health and counts."},
         ],
         "vault_structure": list(REQUIRED_DIRS),
@@ -228,6 +229,13 @@ def command_init(args: argparse.Namespace) -> None:
             "format": "YAML frontmatter at the top of Markdown notes.",
         },
         "instance_contract": {
+            "vocabulary": [
+                "skill_root",
+                "project_repo",
+                "vault_repo",
+                "skill_tmp",
+                "context",
+            ],
             "modes": ["project", "cli-cross", "plugin", "inception", "server"],
             "project_vault": "docs/ or equivalent project vault",
             "skill_tmp": ".tmp/ for temporary planning and maps",
@@ -290,7 +298,7 @@ def command_init(args: argparse.Namespace) -> None:
                 {
                     **DEFAULT_INSTANCE,
                     "project_vault": str(vault),
-                    "skill_tmp": str((vault / ".tmp").resolve()) if (vault / ".tmp").exists() else ".tmp/vault",
+                    "skill_tmp": str((vault / ".tmp").resolve()) if (vault / ".tmp").exists() else ".tmp",
                 },
                 ensure_ascii=False,
                 indent=2,
@@ -328,16 +336,19 @@ def command_config(args: argparse.Namespace) -> None:
     else:
         current = {}
 
+    current_contexts = current.get("contexts", {})
+    current_mode = current.get("mode", "project")
+    current_skill_tmp = current.get("skill_tmp", ".tmp")
     contexts = {
-        "user": [item for item in (args.user_context or []) if item],
-        "project": [item for item in (args.project_context or []) if item],
-        "skill": [item for item in (args.skill_context or []) if item],
-        "external": [item for item in (args.external_context or []) if item],
+        "user": [item for item in (args.user_context if args.user_context else current_contexts.get("user", [])) if item],
+        "project": [item for item in (args.project_context if args.project_context else current_contexts.get("project", [])) if item],
+        "skill": [item for item in (args.skill_context if args.skill_context else current_contexts.get("skill", [])) if item],
+        "external": [item for item in (args.external_context if args.external_context else current_contexts.get("external", [])) if item],
     }
     payload = {
-        "mode": args.mode,
+        "mode": args.mode or current_mode,
         "project_vault": str(vault),
-        "skill_tmp": args.skill_tmp or ".tmp/vault",
+        "skill_tmp": args.skill_tmp or current_skill_tmp,
         "contexts": contexts,
     }
     current.update(payload)
@@ -663,6 +674,65 @@ def command_brief(args: argparse.Namespace) -> None:
     )
 
 
+def command_ask(args: argparse.Namespace) -> None:
+    vault = resolve_vault(args, "ask")
+    require_initialized("ask", vault)
+    query = args.query.strip()
+    if not query:
+        error("ask", str(vault), "Query cannot be empty.", 2)
+
+    stage_map = {
+        "inbox": vault / "00-INBOX",
+        "captures": vault / "01-CAPTURES",
+        "connections": vault / "02-CONNECTIONS",
+        "briefs": vault / "03-BRIEFS",
+        "neurona": vault / "05-NEURONA",
+    }
+    stages = [stage for stage in (args.stage or stage_map.keys()) if stage in stage_map]
+    query_terms = note_keywords(query)
+    if not query_terms:
+        query_terms = {slugify(query)}
+
+    matches: list[dict[str, Any]] = []
+    scanned = 0
+    for stage in stages:
+        for path in markdown_files(stage_map[stage]):
+            scanned += 1
+            text = path.read_text(encoding="utf-8")
+            score = len(query_terms & note_keywords(text))
+            if query.lower() in text.lower():
+                score += 2
+            if score > 0:
+                matches.append(
+                    {
+                        "stage": stage,
+                        "path": str(path.relative_to(vault)),
+                        "score": score,
+                        "preview": first_sentence(evidence_text(text)),
+                    }
+                )
+
+    matches.sort(key=lambda item: item["score"], reverse=True)
+    limit = max(args.limit, 1)
+    selected = matches[:limit]
+    emit(
+        {
+            "ok": True,
+            "command": "ask",
+            "vault": str(vault),
+            "created_files": [],
+            "updated_files": [],
+            "warnings": [] if selected else ["No matching notes found for the query."],
+            "summary": {
+                "query": query,
+                "stages": stages,
+                "scanned": scanned,
+                "matches": selected,
+            },
+        }
+    )
+
+
 def command_status(args: argparse.Namespace) -> None:
     vault = resolve_vault(args, "status")
     missing = [name for name in REQUIRED_DIRS if not (vault / name).is_dir()]
@@ -701,7 +771,7 @@ def build_parser() -> argparse.ArgumentParser:
         choices=["project", "cli-cross", "plugin", "inception", "server"],
         default="project",
     )
-    config_parser.add_argument("--skill-tmp", default=".tmp/vault")
+    config_parser.add_argument("--skill-tmp", default=".tmp")
     config_parser.add_argument("--user-context", action="append", default=[])
     config_parser.add_argument("--project-context", action="append", default=[])
     config_parser.add_argument("--skill-context", action="append", default=[])
@@ -728,6 +798,18 @@ def build_parser() -> argparse.ArgumentParser:
     brief_parser.add_argument("--vault")
     brief_parser.add_argument("--topic", required=True)
     brief_parser.set_defaults(func=command_brief)
+
+    ask_parser = subcommands.add_parser("ask", help="Query the vault across stages.")
+    ask_parser.add_argument("--vault")
+    ask_parser.add_argument("--query", required=True)
+    ask_parser.add_argument(
+        "--stage",
+        action="append",
+        choices=["inbox", "captures", "connections", "briefs", "neurona"],
+        help="Limit the query to specific stages.",
+    )
+    ask_parser.add_argument("--limit", type=int, default=5)
+    ask_parser.set_defaults(func=command_ask)
 
     status_parser = subcommands.add_parser("status", help="Report vault health and counts.")
     status_parser.add_argument("--vault")

@@ -34,6 +34,9 @@ Esto exporta `NEURONA_VAULT` a `.tmp/vault`, evitando rutas temporales específi
 `docs/` es la bóveda concreta del proyecto actual. El mismo skill puede instanciarse en otros proyectos
 con semánticas distintas, pero conservando este contrato estructural.
 
+La raíz del repositorio no es una bóveda válida. Si la instancia necesita otra ubicación para la bóveda activa,
+debe declararla como descendiente explícito del repo y validarla con el setup o con la configuración de instancia.
+
 Los pendientes de trabajo viven en `docs/00-INBOX/` mientras sigan siendo ideas crudas o propuestas sin implementar.
 No crees una carpeta separada para “pendings” salvo que una instancia lo declare explícitamente como variante de contrato.
 La condición de pendiente debe declararse con metadata (`status`, `tags`, `aliases` o campos de instancia), no con una carpeta nueva.
