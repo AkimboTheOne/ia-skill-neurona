@@ -75,7 +75,7 @@ Si ya usas una memoria nativa del agente, trata este repo como la capa de memori
 - Organiza la memoria por tipo, no por tema.
 - Conecta notas cuando existe un principio, tensión o patrón común.
 - Genera briefs cuando la red ya tiene forma comunicable.
-- Eleva ideas maduras a `05-NEURONA` cuando ya gobiernan el modelo.
+- Eleva ideas maduras a la bóveda de neuronas cuando ya gobiernan el modelo.
 - Cura y compacta la documentación para reducir extensión sin perder procedencia ni calidad.
 - Reorienta sesiones nuevas con una entrada clara del repositorio y su documentación.
 
@@ -159,7 +159,7 @@ Resumen operativo:
 - `01-CAPTURES`: notas tipadas y curadas.
 - `02-CONNECTIONS`: relaciones entre notas.
 - `03-BRIEFS`: síntesis listas para usar.
-- `05-NEURONA`: doctrina, guías e índice del modelo.
+- `05-NEURONA`: doctrina, guías e índice del modelo materializados por la CLI.
 
 ## Gobernanza de instancia
 
@@ -187,7 +187,7 @@ Si entras por primera vez como agente de codificación IA:
 2. Lee `AGENTS.md` para orientarte en el repo.
 3. Lee `README.md` para entender el alcance del producto.
 4. Lee `SKILL.md` para entender el contrato del skill.
-5. Usa `ia-skill-neurona/vault/05-NEURONA/` para navegar la red documental del proyecto.
+5. Usa `docs/especificacion/` para navegar la red documental del proyecto.
 6. Usa `references/` para recuperar la doctrina estable y los contratos reutilizables.
 7. Usa `scripts/mini-suite.sh` para validar el flujo básico cuando hagas cambios.
 
@@ -208,7 +208,7 @@ Eso hace que el módulo sea reutilizable sin perder su forma.
 
 ## Casos de uso
 
-La mini-red operativa de `05-NEURONA` documenta recorridos concretos para automatizaciones con agentes LLM.
+La mini-red operativa de la bóveda documenta recorridos concretos para automatizaciones con agentes LLM.
 
 - Capturar ideas crudas y convertirlas en capturas tipadas.
 - Conectar notas cuando existe una tensión, principio o patrón útil.
@@ -217,15 +217,15 @@ La mini-red operativa de `05-NEURONA` documenta recorridos concretos para automa
 
 Si quieres ver la guía operativa de esos recorridos:
 
-- [`Índice de ayuda operativa para agentes LLM`](ia-skill-neurona/vault/05-NEURONA/indice-de-ayuda-operativa-para-agentes-llm.md)
-- [`Modelo de instanciación del skill`](ia-skill-neurona/vault/05-NEURONA/modelo-de-instanciacion-del-skill.md)
+- [`Índice de ayuda operativa para agentes LLM`](docs/especificacion/indice-de-ayuda-operativa-para-agentes-llm.md)
+- [`Modelo de instanciación del skill`](docs/especificacion/modelo-de-instanciacion-del-skill.md)
 
 ## Qué debes leer si vas a usarlo
 
 - [`SKILL.md`](SKILL.md)
-- [`ia-skill-neurona/vault/05-NEURONA/neurona.md`](ia-skill-neurona/vault/05-NEURONA/neurona.md)
-- [`ia-skill-neurona/vault/05-NEURONA/doctrina-preferencia-editorial.md`](ia-skill-neurona/vault/05-NEURONA/doctrina-preferencia-editorial.md)
-- [`ia-skill-neurona/vault/05-NEURONA/indice-de-ayuda-operativa-para-agentes-llm.md`](ia-skill-neurona/vault/05-NEURONA/indice-de-ayuda-operativa-para-agentes-llm.md)
+- [`docs/especificacion/neurona.md`](docs/especificacion/neurona.md)
+- [`docs/especificacion/doctrina-preferencia-editorial.md`](docs/especificacion/doctrina-preferencia-editorial.md)
+- [`docs/especificacion/indice-de-ayuda-operativa-para-agentes-llm.md`](docs/especificacion/indice-de-ayuda-operativa-para-agentes-llm.md)
 - [`references/vault-structure.md`](references/vault-structure.md)
 - [`references/intelligence-workflows.md`](references/intelligence-workflows.md)
 - [`references/editorial-preference.md`](references/editorial-preference.md)

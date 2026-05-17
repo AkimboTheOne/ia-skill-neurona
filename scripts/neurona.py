@@ -8,6 +8,7 @@ import json
 import os
 import re
 import sys
+import shutil
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -100,6 +101,15 @@ def default_vault_dir(workspace_dir: Path) -> Path:
 
 def default_instance_path(workspace_dir: Path) -> Path:
     return workspace_dir / "instance.json"
+
+
+def portable_skill_tmp(value: str | None = None) -> str:
+    if not value:
+        return ".tmp"
+    normalized = value.strip()
+    if not normalized:
+        return ".tmp"
+    return ".tmp" if Path(normalized).name == ".tmp" else normalized
 
 
 def resolve_vault(args: argparse.Namespace, command: str) -> Path:
@@ -305,8 +315,9 @@ def command_init(args: argparse.Namespace) -> None:
             "summary": "object",
         },
     }
-    manifest_path = vault / "05-NEURONA" / "agent.json"
-    llms_path = vault / "05-NEURONA" / "llms.txt"
+    references_dir = repo_dir / "references"
+    manifest_path = references_dir / "agent.json"
+    llms_path = references_dir / "llms.txt"
     instance_exists = instance_path.exists()
 
     for path, content in (
@@ -358,12 +369,22 @@ def command_init(args: argparse.Namespace) -> None:
             created.append(str(path))
         path.write_text(content, encoding="utf-8")
 
+    docs_spec = repo_dir / "docs" / "especificacion"
+    neurona_dir = vault / "05-NEURONA"
+    if docs_spec.is_dir():
+        for source in sorted(docs_spec.glob("*.md")):
+            destination = neurona_dir / source.name
+            shutil.copy2(source, destination)
+            updated.append(str(destination))
+    else:
+        warnings.append("docs/especificacion not found; 05-NEURONA was not materialized from docs.")
+
     instance_payload = {
         **DEFAULT_INSTANCE,
         "skill_root": str(repo_dir),
         "project_repo": str(repo_dir),
         "vault_repo": str(vault),
-        "skill_tmp": str(repo_dir / ".tmp"),
+        "skill_tmp": ".tmp",
         "vaults": {
             "active": "default",
             "named": {"default": str(vault)},
@@ -395,7 +416,7 @@ def command_config(args: argparse.Namespace) -> None:
 
     current_contexts = current.get("contexts", {})
     current_mode = current.get("mode", "project")
-    current_skill_tmp = current.get("skill_tmp", ".tmp")
+    current_skill_tmp = portable_skill_tmp(current.get("skill_tmp", ".tmp"))
     current_vaults = current.get("vaults", {"active": "default", "named": {}})
     contexts = {
         "user": [item for item in (args.user_context if args.user_context else current_contexts.get("user", [])) if item],
@@ -410,7 +431,7 @@ def command_config(args: argparse.Namespace) -> None:
         "skill_root": str(workspace_root_from_vault(vault)),
         "project_repo": str(workspace_root_from_vault(vault)),
         "vault_repo": str(vault),
-        "skill_tmp": args.skill_tmp or current_skill_tmp,
+        "skill_tmp": portable_skill_tmp(args.skill_tmp or current_skill_tmp),
         "contexts": contexts,
         "vaults": {
             "active": args.active_vault or current_vaults.get("active", "default"),
